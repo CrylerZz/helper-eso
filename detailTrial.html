@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>detailTrial</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!--
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="scss/style.css">
+</head>
+<body class="body-trial-1">
+<header class="d-space-between">
+    <div style="padding-left:2rem">TesoHelper</div>
+    <div></div>
+    <div>
+        <a class="navbar-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+    </div>
+</header>
+<main>
+    <div class="f-jos d-centered"
+         style="min-height: 250px;margin: 4rem auto 4rem;background: rgba(0,0,0,0.4);color: white;z-index: 100">
+        <div style="max-width: 1344px;width: 100%;text-align: center">
+            <p style="font-size: 4rem;margin-bottom: 2rem; line-height: 4rem;">Citadelle D'Hel Ra</p>
+            <aside class="container-menu-aside">
+                <ul class="menu-list">
+                    <li>
+                        <button class="tabs-links is-active" onclick="tabsBoss(event,'Boss1')">Ra Kotu</button>
+                    </li>
+                    <li>
+                        <button class="tabs-links" onclick="tabsBoss(event,'Boss2')">Yokeda Rok’dun</button>
+                    </li>
+                    <li>
+                        <button class="tabs-links" onclick="tabsBoss(event,'Boss3')">Yokeda Kai</button>
+                    </li>
+                    <li>
+                        <button class="tabs-links" onclick="tabsBoss(event,'Boss4')">The Warrior</button>
+                    </li>
+                </ul>
+                <select name="boss" id="boss-select">
+                    <option value="Boss 1" selected>Boss 1</option>
+                    <option value="Boss 2">Boss 2</option>
+                </select>
+            </aside>
+        </div>
+    </div>
+    <div class="role-filter-container">
+        <p>Select your role</p>
+        <div class="d-centered item-role-choice-container">
+            <div class="item-role-choice" style="background: rgba(1, 26, 81,.5)"><span>Tank</span></div>
+            <div class="item-role-choice " style="background: rgba(23, 128, 99,.5);"><span>Healer</span></div>
+            <div class="item-role-choice is-active" style="background: rgba(140, 17, 14,.5)"><span>Dps</span></div>
+        </div>
+    </div>
+    <div class="container content-gradient-bg">
+        <div class="overview-container">
+            <p class="f-jos" style="margin-bottom:2rem;text-align: center;color: white;font-size: 2.2rem">Trial Overview</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi eos facilis id? Ad cumque dolore earum, ex id illo in, natus officia placeat porro quae quisquam repellendus soluta sunt, voluptatem?</p>
+        </div>
+        <!--Role filter-->
+        <div class="content-container d-flex flex-column">
+            <div class="phase-container not-main-phase">
+                <div class="left-phase-container">
+                    <span>Phase</span>
+                    <div>1</div>
+                </div>
+                <p>Stand Directly behind boss to avoid Six Sword Assault. Block if it hits you to avoid dying from the return flight.</p>
+            </div>
+            <div class="tabs-content-right-aside is-active" id="Boss1">
+                <div class="bloc-mech-container">
+                    <div class="media-mech"></div>
+                    <div class="info-mech">
+                        <h3 class="title-mech">Gust</h3>
+                        <p class="text-mech">Summons whirlwinds on the ground that the healers will need to heal through</p>
+                    </div>
+                </div>
+                <div class="bloc-mech-container invert-bloc-mech">
+                    <div class="media-mech"></div>
+                    <div class="info-mech">
+                        <h3 class="title-mech">Six Sword Assault</h3>
+                        <p class="text-mech">Ra Kotu will throw four swords out that will boomerang back to the boss hitting players twice if they are in the wrong spot. To avoid this stand directly behind the boss</p>
+                    </div>
+                </div>
+                <div class="phase-container not-main-phase">
+                    <div class="left-phase-container">
+                        <span>At 35%</span>
+                    </div>
+                </div>
+                <div class="bloc-mech-container">
+                    <div class="media-mech"></div>
+                    <div class="info-mech">
+                        <h3 class="title-mech">Spinning Attack</h3>
+                        <p class="text-mech">Ra Kotu begins to spin, back away from the boss and continue damage.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tabs-content-right-aside" id="Boss2">
+                <div class="bloc-mech-container">
+                    <div class="media-mech"></div>
+                    <div class="info-mech">
+                        <h3 class="title-mech">Mech 1</h3>
+                        <p class="text-mech">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor
+                            perspiciatis ratione similique! Aliquid corporis dicta fugiat ipsum iusto, omnis quas
+                            reprehenderit unde voluptas. Doloribus eius explicabo ipsum perferendis quaerat
+                            voluptas.</p>
+                    </div>
+                </div>
+                <div class="bloc-mech-simple">
+                    <div class="info-mech">
+                        <h3 class="title-mech">Mech 1</h3>
+                        <p class="text-mech">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor
+                            perspiciatis ratione similique! Aliquid corporis dicta fugiat ipsum iusto, omnis quas
+                            reprehenderit unde voluptas. Doloribus eius explicabo ipsum perferendis quaerat
+                            voluptas.</p>
+                    </div>
+                </div>
+                <div class="bloc-mech-simple" style="float: right">
+                    <div class="info-mech">
+                        <h3 class="title-mech">Mech 1</h3>
+                        <p class="text-mech">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor
+                            perspiciatis ratione similique! Aliquid corporis dicta fugiat ipsum iusto, omnis quas
+                            reprehenderit unde voluptas. Doloribus eius explicabo ipsum perferendis quaerat
+                            voluptas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar-menu is-right-pos">
+        <ul>
+            <li class="has-child">
+                <a href="/">Trial</a>
+                <div class="icon-has-child"><img src="img/icon/arrow-down.png" alt=""></div>
+                <ul class="child-container">
+                    <li class="has-child">
+                        <a href="/">Citadelle d'Hel Ra</a>
+                        <div class="icon-has-child"><img src="img/icon/arrow-down.png" alt=""></div>
+                        <ul class="child-container">
+                            <li><a href="/">Ra'Kotu</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/">Rochebosque</a></li>
+                    <li><a href="/">Logs</a></li>
+                </ul>
+            </li>
+            <li><a href="/">Other</a></li>
+        </ul>
+        <div class="side-menu">
+            <div class="btn" onclick="switchSideMenu(0)">
+                <img width="30" src="https://img.icons8.com/ios/50/ffffff/show-left-side-panel.png"/>
+            </div>
+            <p>Side Switch</p>
+            <div class="btn is-active" onclick="switchSideMenu(1)">
+                <img width="35" src="https://img.icons8.com/ios/50/ffffff/show-right-side-panel.png"/>
+            </div>
+        </div>
+    </nav>
+    <div class="modal-mech">
+        <div class="container container-modal-mech">
+            <div class="media-modal-mech"></div>
+            <div class="info-modal-mech">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi asperiores culpa dicta ea earum eius
+                facere hic iure libero maiores maxime, nam nesciunt nulla odio pariatur provident vitae voluptatem!
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+        crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpUiltL0kT2R53FlUc-d8OCZ_aZqUaRs8",
+      authDomain: "trialhelper-153df.firebaseapp.com",
+      projectId: "trialhelper-153df",
+      storageBucket: "trialhelper-153df.appspot.com",
+      messagingSenderId: "658684212558",
+      appId: "1:658684212558:web:07b239c0927381c7ee9a1f",
+      measurementId: "G-N2WNC908BS"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</body>
+</html>

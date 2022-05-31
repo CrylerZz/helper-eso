@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logs</title>
+    <link rel="stylesheet" href="scss/actor.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900">
+<main class="container max-w-8xl px-6 py-10 mx-auto">
+    <div class="my-8">
+        <div class="flex">
+            <div class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 w-1/12 text-center">ESO LOG</div>
+            <input oninput="return reportTarget(this.value);" name="field_name" class="border border-2 rounded-r px-4 py-2 w-full" type="text" placeholder="ID Log here..." />
+        </div>
+    </div>
+    <div id="title-trial"></div>
+    <div id="container-boss" class="mt-12"></div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+</body>
+
+</html>
+

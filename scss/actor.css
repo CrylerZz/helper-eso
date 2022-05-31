@@ -1,0 +1,289 @@
+.composition-icon {
+    width: 30px;
+    height: 30px;
+    --size: 30;
+    margin-right: 4px;
+    float: left;
+    border: 1px solid #555;
+    box-sizing: content-box;
+}
+
+.DragonKnight, .DragonKnight.do-not-change-color-on-hover:hover {
+    color: #ff7d0a !important
+}
+
+.Templar, .Templar.do-not-change-color-on-hover:hover {
+    color: #fff569 !important
+}
+
+.Sorcerer, .Sorcerer.do-not-change-color-on-hover:hover {
+    color: #9482c9 !important
+}
+
+.DragonKnight:hover {
+    color: #ffa330 !important
+}
+
+.Templar:hover {
+    color: #ffff8f !important
+}
+
+.Sorcerer:hover {
+    color: #b8a8f0 !important
+}
+
+.DragonKnight-bg {
+    background-color: #ff7d0a !important
+}
+
+.Templar-bg {
+    background-color: #fff569 !important
+}
+
+.Sorcerer-bg {
+    background-color: #9482c9 !important
+}
+
+.DragonKnight-behind-text {
+    background-color: #cc630a !important
+}
+
+.Templar-behind-text {
+    background-color: #807a33 !important
+}
+
+.Sorcerer-behind-text {
+    background-color: #7566a1 !important
+}
+
+.sm-black a {
+    font-family: "roboto condensed", Avenir, Arial, sans-serif !important
+}
+
+.Warden, .Warden.do-not-change-color-on-hover:hover {
+    color: #108210 !important
+}
+
+.Warden:hover {
+    color: #209020 !important
+}
+
+.Warden-bg {
+    background-color: #108210 !important
+}
+
+.Warden-behind-text {
+    background-color: #108210 !important
+}
+
+.Necromancer, .Necromancer.do-not-change-color-on-hover:hover {
+    color: #a330c9 !important
+}
+
+.Necromancer-bg {
+    background-color: #a330c9 !important
+}
+
+.Necromancer-behind-text {
+    background-color: #631089 !important
+}
+
+.Necromancer:hover {
+    color: #c350e9 !important
+}
+
+.Nightblade, .Nightblade.do-not-change-color-on-hover:hover {
+    color: #e87b7b !important
+}
+
+.Nightblade-bg, .Nightblade-behind-text {
+    background-color: #e87b7b !important
+}
+
+.Nightblade:hover {
+    color: #e89b9b !important
+}
+
+.Werewolf, .Werewolf.do-not-change-color-on-hover:hover {
+    color: #c79c6e !important
+}
+
+.Werewolf:hover {
+    color: #edc294 !important
+}
+
+.Werewolf-bg {
+    background-color: #c79c6e !important
+}
+
+.Werewolf-behind-text {
+    background-color: #9e7d57 !important
+}
+
+.sprite {
+    object-fit: cover
+}
+
+.actor-sprite-Boss {
+    object-position: calc(-1px * var(--size)) 0px;
+}
+
+.actor-sprite-DragonKnight-Healer {
+    object-position: calc(-20px * var(--size)) 0px;
+}
+
+.actor-sprite-DragonKnight-MagickaDPS {
+    object-position: calc(-2px * var(--size)) 0px;
+}
+
+.actor-sprite-DragonKnight-StaminaDPS {
+    object-position: calc(-3px * var(--size)) 0px;
+}
+
+.actor-sprite-DragonKnight-Tank {
+    object-position: calc(-4px * var(--size)) 0px
+}
+
+.actor-sprite-DragonKnight-WerewolfDPS {
+    object-position: calc(-5px * var(--size)) 0px
+}
+
+.actor-sprite-DragonKnight {
+    object-position: calc(-6px * var(--size)) 0px
+}
+
+.actor-sprite-NPC {
+    object-position: calc(-19px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer-Healer {
+    object-position: calc(-7px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer-MagickaDPS {
+    object-position: calc(-8px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer-StaminaDPS {
+    object-position: calc(-9px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer-Tank {
+    object-position: calc(-10px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer-WerewolfDPS {
+    object-position: calc(-11px * var(--size)) 0px
+}
+
+.actor-sprite-Necromancer {
+    object-position: calc(-12px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade-Healer {
+    object-position: calc(-13px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade-MagickaDPS {
+    object-position: calc(-14px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade-StaminaDPS {
+    object-position: calc(-15px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade-Tank {
+    object-position: calc(-16px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade-WerewolfDPS {
+    object-position: calc(-17px * var(--size)) 0px
+}
+
+.actor-sprite-Nightblade {
+    object-position: calc(-18px * var(--size)) 0px
+}
+
+.actor-sprite-Pet {
+    object-position: calc(0px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer-Healer {
+    object-position: calc(-21px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer-MagickaDPS {
+    object-position: calc(-22px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer-StaminaDPS {
+    object-position: calc(-23px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer-Tank {
+    object-position: calc(-24px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer-WerewolfDPS {
+    object-position: calc(-25px * var(--size)) 0px
+}
+
+.actor-sprite-Sorcerer {
+    object-position: calc(-26px * var(--size)) 0px
+}
+
+.actor-sprite-Templar-Healer {
+    object-position: calc(-27px * var(--size)) 0px
+}
+
+.actor-sprite-Templar-MagickaDPS {
+    object-position: calc(-28px * var(--size)) 0px
+}
+
+.actor-sprite-Templar-StaminaDPS {
+    object-position: calc(-29px * var(--size)) 0px
+}
+
+.actor-sprite-Templar-Tank {
+    object-position: calc(-30px * var(--size)) 0px
+}
+
+.actor-sprite-Templar-WerewolfDPS {
+    object-position: calc(-31px * var(--size)) 0px
+}
+
+.actor-sprite-Templar {
+    object-position: calc(-32px * var(--size)) 0px
+}
+
+.actor-sprite-Warden-Healer {
+    object-position: calc(-33px * var(--size)) 0px
+}
+
+.actor-sprite-Warden-MagickaDPS {
+    object-position: calc(-34px * var(--size)) 0px
+}
+
+.actor-sprite-Warden-StaminaDPS {
+    object-position: calc(-35px * var(--size)) 0px
+}
+
+.actor-sprite-Warden-Tank {
+    object-position: calc(-36px * var(--size)) 0px
+}
+
+.actor-sprite-Warden-WerewolfDPS {
+    object-position: calc(-37px * var(--size)) 0px
+}
+
+.actor-sprite-Warden {
+    object-position: calc(-38px * var(--size)) 0px
+}
+
+.actor-sprite-Werewolf-WerewolfDPS {
+    object-position: calc(-39px * var(--size)) 0px
+}
+
+.actor-sprite-Werewolf {
+    object-position: calc(-40px * var(--size)) 0px
+}

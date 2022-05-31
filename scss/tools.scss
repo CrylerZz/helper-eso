@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+$gap-main: 1.5rem;
+
+$font-josefin: 'Josefin Sans', sans-serif;
+$font-openSans: 'Open Sans', sans-serif;
+.f-jos {
+  font-family: $font-josefin;
+  font-weight: 600;
+}
+header {
+  @extend .f-jos;
+}
+.f-open {
+  font-family: $font-openSans;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.8rem;
+}
+
+body {
+  @extend .f-open;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+.justify-center{
+  justify-content: center;
+}
+.flex-column{
+  flex-direction: column;
+}
+
+.d-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.d-centered-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.d-space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.d-space-between-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.d-column {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+}
+
