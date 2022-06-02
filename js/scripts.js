@@ -191,7 +191,6 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
-            console.log(catchHeal.length);
             for (let i = 0; i < catchHeal.length; i++) {
                 let pathIcon = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
                 let classChara = catchHeal[i].icon;
@@ -241,7 +240,6 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
-
             for (let i = 0; i < catchTank.length; i++) {
                 let pathIcon = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
                 let classChara = catchTank[i].icon;
@@ -290,7 +288,6 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
-            console.log(bigData);
 
         }).catch(function (error) {
     });
