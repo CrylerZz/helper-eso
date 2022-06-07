@@ -9,13 +9,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900">
+<div class="flex items-center justify-center">
+    <input oninput="return reportTarget(this.value);" name="field_name"
+           class="border-none bg-black px-4 py-8 w-full text-white text-xl"
+           type="text" placeholder="Past Your ID Here" />
+
+</div>
 <main class="container max-w-8xl px-6 py-10 mx-auto">
-    <div class="my-8">
-        <div class="flex">
-            <div class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 w-1/12 text-center">ESO LOG</div>
-            <input oninput="return reportTarget(this.value);" name="field_name" class="border border-2 rounded-r px-4 py-2 w-full" type="text" placeholder="ID Log here..." />
-        </div>
-    </div>
     <div id="title-trial"></div>
     <div id="container-boss" class="mt-12"></div>
 </main>

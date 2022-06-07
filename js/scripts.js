@@ -102,6 +102,8 @@ function builderCompForChara(data, id) {
 }
 
 function reportTarget(idReport) {
+    $('#title-trial').empty();
+    $('#container-boss').empty();
     fetch("https://www.esologs.com:443/v1/report/fights/" + idReport + "?api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (data) {
@@ -116,11 +118,10 @@ function reportTarget(idReport) {
                     let nameBoss = fight.name;
                     //onclick="preciseFight(\''+reportSign+'\',' + idBoss + ',' + startBoss + ',' + endBoss + ')"
                     $("#container-boss").append('<div id="boss-' + idBoss + '" class="item-container-boss">' +
-                        '<button onclick="$(this).next().toggle()" style="position: sticky;top: 0" class="flex items-center justify-between w-full p-8 border-2 border-gray-100 rounded-lg dark:border-gray-700 dark:bg-gray-800 dark:border-gray-700 my-6">' +
-                        '<p class="font-semibold text-gray-700 dark:text-white text-lg">' + nameBoss + '</p>' +
-                        '<span class="text-gray-400 bg-gray-200 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" /></svg></span>' +
+                        '<button onclick="$(this).next().toggle()" style="position: sticky;top: 0" class="flex items-center justify-center w-full p-8 border-2 bg-gray-800 border-gray-700 my-6 ">' +
+                        '<p class="font-semibold text-gray-700 dark:text-white text-xl">' + nameBoss + '</p>' +
                         '</button>' +
-                        '<div id="contentBoss-' + idBoss + '" class="px-4 text-sm text-gray-500 dark:text-gray-300 grid grid-cols-2 gap-4"></div>' +
+                        '<div id="contentBoss-' + idBoss + '" class="px-4 text-sm text-gray-500 dark:text-gray-300 grid grid-cols-1 xl:grid-cols-2 gap-4"></div>' +
                         '</div>');
                     preciseFight(reportSign, idBoss, startBoss, endBoss);
                 }
@@ -130,6 +131,7 @@ function reportTarget(idReport) {
             console.log(error);
         });
 }
+//yhMCWzma93YLbjgp
 
 
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
@@ -137,12 +139,13 @@ function preciseFight(report, idBoss, start, end) {
     fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (specifikFight) {
+            console.log(specifikFight);
+
             let allGroup = specifikFight.composition;
             let allDamageDone = specifikFight.damageDone;
             let catchDD = specifikFight.playerDetails.dps;
             let catchHeal = specifikFight.playerDetails.healers;
             let catchTank = specifikFight.playerDetails.tanks;
-
             for (let i = 0; i < catchDD.length; i++) {
                 let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
                 let classChara = catchDD[i].icon;
@@ -191,6 +194,8 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
+
+            /*
             for (let i = 0; i < catchHeal.length; i++) {
                 let pathIcon = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
                 let classChara = catchHeal[i].icon;
@@ -288,7 +293,7 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
-
+*/
         }).catch(function (error) {
     });
 }
