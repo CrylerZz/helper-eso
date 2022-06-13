@@ -154,7 +154,7 @@ function preciseFight(report, idBoss, start, end) {
                 let idChara = catchDD[i].id;
                 let DDCharaGear = catchDD[i].combatantInfo.gear;
                 let DDCharaComp = catchDD[i].combatantInfo.talents;
-                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-2 shadow-md bg-gray-800 border-gray-700">' +
+                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-4 shadow-md bg-gray-800 border-red-500">' +
                     '<div class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white mb-6 flex items-center justify-between w-full">' +
                     '<div class="flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + ' - ' + displayName + ' - ' + classChara + '</div>' +
                     '</div>' +
@@ -195,7 +195,7 @@ function preciseFight(report, idBoss, start, end) {
 
             }
 
-            /*
+            
             for (let i = 0; i < catchHeal.length; i++) {
                 let pathIcon = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
                 let classChara = catchHeal[i].icon;
@@ -205,7 +205,7 @@ function preciseFight(report, idBoss, start, end) {
                 let DDCharaGear = catchHeal[i].combatantInfo.gear;
                 console.log(DDCharaGear);
                 let DDCharaComp = catchHeal[i].combatantInfo.talents;
-                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-2  shadow-md bg-gray-800 border-gray-700">' +
+                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-4  shadow-md bg-gray-800 border-green-500">' +
                     '<div class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white mb-6 flex items-center justify-between w-full">' +
                     '<div class="flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIcon + '">' + name + ' - ' + displayName + ' - ' + classChara + '</div>' +
                     '</div>' +
@@ -253,7 +253,7 @@ function preciseFight(report, idBoss, start, end) {
                 let idChara = catchTank[i].id;
                 let DDCharaGear = catchTank[i].combatantInfo.gear;
                 let DDCharaComp = catchTank[i].combatantInfo.talents;
-                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-2 border-gray-100 shadow-md bg-gray-800 border-gray-700">' +
+                $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="block p-6 w-full rounded-lg border border-4 border-gray-100 shadow-md bg-gray-800 border-blue-500">' +
                     '<div class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white mb-6 flex items-center justify-between w-full">' +
                     '<div class="flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIcon + '">' + name + ' - ' + displayName + ' - ' + classChara + '</div>' +
                     '</div>' +
@@ -293,7 +293,7 @@ function preciseFight(report, idBoss, start, end) {
                     '</div>');
 
             }
-*/
+
         }).catch(function (error) {
     });
 }
