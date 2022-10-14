@@ -61,16 +61,16 @@ let traitType = {
     26: 'Infusé',
     31: 'Précis',
     30: 'Énergisé',
-    32:'Acéré',
-    26:'Infusé',
-    14:'Harmonieux',
-    15:'Sain',
-    24:'Décisif',
-    25:'Défenseur'
+    32: 'Acéré',
+    26: 'Infusé',
+    14: 'Harmonieux',
+    15: 'Sain',
+    24: 'Décisif',
+    25: 'Défenseur'
 }
 
 let enchantType = {
-    3:'Absorption de vigueur',
+    3: 'Absorption de vigueur',
     22: 'Magie',
     35: 'Vigeur',
     12: 'Arme enflammé',
@@ -81,12 +81,12 @@ let enchantType = {
     23: 'Regen Magie',
     32: 'Affaiblissement',
     36: 'Régénération de vigueur',
-    15:'Arme Glaçé',
-    2 : 'Absorption de magie',
+    15: 'Arme Glaçé',
+    2: 'Absorption de magie',
     16: 'Santé',
-    26:'Défense prismatique',
-    17:'Régénération de santé',
-    28:'Réduit l\'armure'
+    26: 'Défense prismatique',
+    17: 'Régénération de santé',
+    28: 'Réduit l\'armure'
 }
 
 let qualityEnchant = {
@@ -224,7 +224,7 @@ function preciseFight(report, idBoss, start, end) {
                 let talents = allGroupMap[f].talents;
                 $('#contentBoss-' + idBoss).append('<div id="' + displayName + '" class="' + allGroupMap[f].role + ' block p-6 w-full rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800">' +
                     '<div class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white mb-6 flex items-center justify-between w-full">' +
-                    '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '"><span>' + name + ' - ' + displayName + ' - ' + classChara + '</span></div><span>' + parseFloat(dmgPerDD).toPrecision(3) + dmgPerDD.replace(/[^B|M|K]/g,"") + ' / ' + percentDmg.toFixed(2) + '%</span></div>' +
+                    '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '"><span>' + name + ' - ' + displayName + ' - ' + classChara + '</span></div><span>' + parseFloat(dmgPerDD).toPrecision(3) + dmgPerDD.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span></div>' +
                     '</div>' +
                     '<div id="content-' + idChara + '"></div>' +
                     '<div id="comp-' + idChara + '" class="flex justify-between w-full mt-6"></div>' +
