@@ -1,28 +1,24 @@
 <!doctype html>
 <html lang="en" style="height: 100%">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Logs</title>
-    <link rel="stylesheet" href="scss/actor.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-900">
-<div class="flex items-center justify-center">
-    <input oninput="return reportTarget(this.value);" name="field_name"
-           class="border-none bg-black px-4 py-8 w-full text-white text-xl"
-           type="text" placeholder="Past Your ID Here" />
-
-</div>
-<main class="container max-w-8xl px-6 py-10 mx-auto">
-    <div id="title-trial"></div>
-    <div id="container-boss" class="mt-12"></div>
-</main>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-</body>
-
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Logs</title>
+        <link rel="stylesheet" href="scss/actor.css">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-900 h-screen overflow-hidden flex items-center justify-center">
+        <div class="input-container px-10 max-w-4xl w-full">
+            <div class="flex items-center justify-between">
+                <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
+                <p>zxRhajDQt13gNVfq</p>
+            </div>
+            <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
+                class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2"
+                type="text" placeholder="Here !" />
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+                integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+    </body>
 </html>
-
