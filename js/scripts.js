@@ -134,6 +134,16 @@ function builderCompForChara(data, id, boss) {
         $('#contentBoss-' + boss + ' #comp-' + id).append("<img style='width: 35px' src='" + pathIcon + iconComp + ".png'>")
     }
 }
+//https://www.esologs.com/reports/zxRhajDQt13gNVfq#fight=3&type=auras&source=1&ability=61746
+console.log((83341 * 100) / 95165);
+fetch("https://www.esologs.com:443/v1/report/tables/buffs/zxRhajDQt13gNVfq?start=366761&end=461926&targetAurasPresent=61746&abilityid=61746&api_key=b578a559d4215fb444928808da6976ec")
+    .then((resp) => resp.json())
+    .then(function (data) {
+        console.log(data);
+    })
+    .catch(function (error) {
+        //console.log(error);
+});
 
 function reportTarget(idReport) {
     $(".input-container").remove();
@@ -150,6 +160,7 @@ function reportTarget(idReport) {
             let fightMap = {};
             for (let fight of fights) {
                 if (fight.boss > 0 && fight.kill) {
+                    console.log(fight);
                     fightMap[fight.id] = fight;
                     let idBoss = fightMap[fight.id].boss;
                     let startBoss = fightMap[fight.id].start_time;
@@ -173,7 +184,7 @@ function reportTarget(idReport) {
 
 //zxRhajDQt13gNVfq
 
-
+/*
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
 function preciseFight(report, idBoss, start, end) {
     $('.role-container').removeClass('hidden');
@@ -181,14 +192,13 @@ function preciseFight(report, idBoss, start, end) {
     fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (specifikFight) {
-            // console.log(specifikFight);
+            //console.log(specifikFight);
             let allGroup = specifikFight.composition;
             let allDamageDone = specifikFight.damageDone;
             let pDetail = specifikFight.playerDetails;
-            console.log(pDetail);
             let allGroupMap = {};
             let fullDamage = 0;
-
+            
             for (let group of allGroup) {
                 allGroupMap[group.id] = group;
             }
@@ -255,7 +265,7 @@ function preciseFight(report, idBoss, start, end) {
             }
 
         }).catch(function (error) { });
-}
+}//*/
 
 $(document).on('click', '.item-container-boss', function () {
     let r = $(this).data('report');
