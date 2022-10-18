@@ -7,18 +7,196 @@
         <link rel="stylesheet" href="scss/actor.css">
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="bg-gray-900 h-screen overflow-hidden flex items-center justify-center">
-        <div class="input-container px-10 max-w-4xl w-full">
-            <div class="flex items-center justify-between">
-                <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
-                <p>zxRhajDQt13gNVfq</p>
+    <body class="bg-gray-900 h-screen overflow-hidden flex items-start justify-center">
+        <!-- Side menu -->
+        <div class="flex h-screen w-16 flex-col justify-between border-r bg-white sticky left-0 top-0 z-50">
+            <div>
+              <div class="inline-flex h-16 w-16 items-center justify-center">
+                <span class="block h-10 w-10 rounded-lg bg-gray-200"></span>
+              </div>
+              <div class="border-t border-gray-100">
+                <nav aria-label="Main Nav" class="flex flex-col p-2">
+                    <div class="py-4">
+                        <a
+                          href=""
+                          class="t group relative flex justify-center rounded bg-blue-50 px-2 py-1.5 text-blue-700"
+                        >
+                            <img src="img/icon/fight.svg" alt="">
+              
+                          <span
+                            class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                          >
+                            Fights
+                          </span>
+                        </a>
+                      </div>
+                  <ul class="space-y-1 pt-4 border-t border-gray-100 ">
+                    <li>
+                      <a
+                        href=""
+                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 opacity-75"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
+                        </svg>
+          
+                        <span
+                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                        >
+                          Teams
+                        </span>
+                      </a>
+                    </li>
+          
+                    <li>
+                      <a
+                        href=""
+                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 opacity-75"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                          />
+                        </svg>
+          
+                        <span
+                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                        >
+                          Buffs
+                        </span>
+                      </a>
+                    </li>
+          
+                    <li>
+                      <a
+                        href=""
+                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 opacity-75"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                          />
+                        </svg>
+          
+                        <span
+                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                        >
+                          Debuffs
+                        </span>
+                      </a>
+                    </li>
+          
+                    <li>
+                      <a
+                        href=""
+                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 opacity-75"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          />
+                        </svg>
+          
+                        <span
+                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                        >
+                          Damage
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                        <a
+                          href=""
+                          class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 opacity-75"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                          </svg>
+            
+                          <span
+                            class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                          >
+                            CPM
+                          </span>
+                        </a>
+                      </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
-            <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
-                class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2"
-                type="text" placeholder="Here !" />
         </div>
+        <!-- main container -->
+        <div class="main-container flex-1 w-full h-screen ">
+            <div class="input-container w-full h-screen flex items-center justify-center">
+                <div class="px-10 max-w-4xl w-full">
+                    <div class="flex items-center justify-between">
+                        <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
+                        <p>zxRhajDQt13gNVfq</p>
+                    </div>
+                    <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
+                        class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2"
+                        type="text" placeholder="Here !" />
+                </div>
+            </div>
+            <div id="fights" class="!hidden h-screen"></div>
+            <div id="players" class="!hidden h-screen"></div>
+            <div id="buffs" class="!hidden h-screen"></div>
+            <div id="debuffs" class="!hidden h-screen"></div>
+        </div>
+ 
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
                 integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <script src="js/builder.js"></script>
+        <script src="js/main.js"></script>
+
     </body>
 </html>

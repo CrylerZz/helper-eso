@@ -1,67 +1,3 @@
-$(".navbar-burger").click(function () {
-    $('.navbar-menu').toggleClass('is-active');
-});
-
-$(".icon-has-child").click(function () {
-    $(this).next().toggleClass('is-active');
-});
-
-$('.bloc-mech-container').click(function () {
-    $('.modal-mech').addClass('is-active');
-    $('body').addClass('is-stuck');
-})
-
-switchSideMenu = function (e) {
-    if (e == 0) {
-        $('.navbar-menu').removeClass('is-right-pos');
-        $('.content-container-menu').removeClass('is-right-pos');
-        $('.navbar-menu').addClass('is-left-pos');
-        $('.content-container').addClass('is-right-pos');
-    } else {
-        $('.navbar-menu').removeClass('is-left-pos');
-        $('.content-container').removeClass('is-left-pos');
-        $('.navbar-menu').addClass('is-right-pos');
-        $('.content-container').addClass('is-right-pos');
-    }
-}
-
-function timeConverter(UNIX_timestamp) {
-    var timestamp = UNIX_timestamp;
-    var date = new Date(timestamp).toLocaleDateString("fr-EU");
-    return date;
-}
-
-
-
-
-
-/*
-
-$(document).on('click', '.item-container-boss', function () {
-    let r = $(this).data('report');
-    let idBoss = $(this).data('boss');
-    let sB = $(this).data('start');
-    let eB = $(this).data('end');
-    preciseFight(r, idBoss, sB, eB);
-})*/
-
-function tabsBoss(e, boss) {
-    var i, tabcontent, tablinks;
-    tabcontent = $('.tabs-content-right-aside');
-    tablinks = $('.tabs-links');
-    for (i = 0; i < tabcontent.length; i++) {
-        $(tabcontent[i]).removeClass('is-active');
-    }
-    for (i = 0; i < tablinks.length; i++) {
-        $(tablinks[i]).removeClass('is-active');
-    }
-    $('#' + boss).addClass('is-active');
-    e.currentTarget.className += " is-active";
-}
-
-
-
-
 let fightMap = {};
 
 function builderDataForChara(data, idPerso, boss) {
@@ -93,20 +29,16 @@ function builderCompForChara(data, id, boss) {
         $('#contentBoss-' + boss + ' #comp-' + id).append("<img style='width: 35px' src='" + pathIcon + iconComp + ".png'>")
     }
 }
-/*
-
 
 function reportTarget(idReport) {
     $(".input-container").remove();
-    $(".main-container").append('<div id="title-trial"></div><div id="container-boss" class="mt-12"></div>');
-    $('#title-trial').empty();
-    $('#container-boss').empty();
- 
+    $('#fights').removeClass('!hidden');
+    $("#fights").append('<h2 id="title-fights" class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">Boss</h2>'+
+    '<div id="container-fights" class="overflow-auto h-full flex items-center justify-center"></div>');
     fetch("https://www.esologs.com:443/v1/report/fights/" + idReport + "?api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (data) {
             let reportSign = idReport;
-            $("#title-trial").append('<div class="text-4xl font-semibold text-center text-gray-800 dark:text-white">' + data.title + '</div>');
             let fights = data.fights;
             for (let fight of fights) {
                 if (fight.boss > 0 && fight.kill) {
@@ -115,8 +47,11 @@ function reportTarget(idReport) {
                     let startBoss = fightMap[fight.id].start_time;
                     let endBoss = fightMap[fight.id].end_time;
                     let nameBoss = fightMap[fight.id].name;
-                   
-                    $("#container-boss").append('<div class="buff-container flex !hidden" id="buff-' + idBoss + '"></div><div id="boss-' + idBoss + '" class="item-container-boss sticky top-0 items-center justify-between w-full p-4 border-2 bg-gray-800 border-gray-700 my-6"' +
+                    $('#container-fights').append('<div class="h-full w-full text-white text-4xl font-extrabold flex items-center justify-center">'+nameBoss+'</div>');
+                    
+                    $("#fights").append('<h2 id="title-fights" class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">Boss</h2>');
+                    
+                    $("#players").append('<div class="buff-container flex !hidden" id="buff-' + idBoss + '"></div><div id="boss-' + idBoss + '" class="item-container-boss sticky top-0 items-center justify-between w-full p-4 border-2 bg-gray-800 border-gray-700 my-6"' +
                         ' data-report="' + reportSign + '" data-boss="' + idBoss + '" data-start="' + startBoss + '" data-end="' + endBoss + '">' +
                         '<div class="flex items-center justify-between"><p class="font-semibold text-gray-700 dark:text-white text-xl">' + nameBoss + '</p>' +
                         '<div class="role-container font-extrabold flex items-center gap-4 hidden h-10"><div class="text-blue-500 h-full"><img class="h-full" src="./img/icon/tank.webp"></div><div class="text-green-500 h-full"><img class="h-full" src="./img/icon/heal.webp"></div><div class="text-red-500 h-full"><img class="h-full" src="./img/icon/dps.webp"></div></div></div>' +
@@ -219,4 +154,3 @@ function preciseFight(report, idBoss, start, end) {
             }
         });
 }
-*/
