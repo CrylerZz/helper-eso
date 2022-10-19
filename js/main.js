@@ -1,5 +1,24 @@
 let fightMap = {};
 
+
+$('.nav-item').click(function(){
+    let target = $(this).data('nav');
+    $('.bloc-main').addClass('!hidden');
+    $('.bloc-main#'+target).removeClass('!hidden');
+});
+
+function showBossTeam(id){
+    $('#fights').addClass('!hidden');
+    $('#teams').removeClass('!hidden');
+    $('.group-container').addClass('hidden');
+    $('#group-'+id).removeClass('hidden');
+}
+
+function builderContentMain(title,id){
+    $("#" + id).append('<h2 id="title-'+id+'" class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">'+title+'</h2>'+
+    '<div id="container-'+id+'" class="overflow-auto h-full flex items-center justify-center"></div>');
+}
+
 function builderDataForChara(data, idPerso, boss) {
 
     let nameGear = data.name;
@@ -30,11 +49,12 @@ function builderCompForChara(data, id, boss) {
     }
 }
 
+
+
 function reportTarget(idReport) {
     $(".input-container").remove();
     $('#fights').removeClass('!hidden');
-    $("#fights").append('<h2 id="title-fights" class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">Boss</h2>'+
-    '<div id="container-fights" class="overflow-auto h-full flex items-center justify-center"></div>');
+    builderContentMain('Boss','fights');
     fetch("https://www.esologs.com:443/v1/report/fights/" + idReport + "?api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (data) {
@@ -43,23 +63,24 @@ function reportTarget(idReport) {
             for (let fight of fights) {
                 if (fight.boss > 0 && fight.kill) {
                     fightMap[fight.id] = fight;
+                    console.log(fight);
                     let idBoss = fightMap[fight.id].boss;
                     let startBoss = fightMap[fight.id].start_time;
                     let endBoss = fightMap[fight.id].end_time;
                     let nameBoss = fightMap[fight.id].name;
-                    $('#container-fights').append('<div class="h-full w-full text-white text-4xl font-extrabold flex items-center justify-center">'+nameBoss+'</div>');
-                    
-                    $("#fights").append('<h2 id="title-fights" class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">Boss</h2>');
-                    
-                    $("#players").append('<div class="buff-container flex !hidden" id="buff-' + idBoss + '"></div><div id="boss-' + idBoss + '" class="item-container-boss sticky top-0 items-center justify-between w-full p-4 border-2 bg-gray-800 border-gray-700 my-6"' +
-                        ' data-report="' + reportSign + '" data-boss="' + idBoss + '" data-start="' + startBoss + '" data-end="' + endBoss + '">' +
-                        '<div class="flex items-center justify-between"><p class="font-semibold text-gray-700 dark:text-white text-xl">' + nameBoss + '</p>' +
-                        '<div class="role-container font-extrabold flex items-center gap-4 hidden h-10"><div class="text-blue-500 h-full"><img class="h-full" src="./img/icon/tank.webp"></div><div class="text-green-500 h-full"><img class="h-full" src="./img/icon/heal.webp"></div><div class="text-red-500 h-full"><img class="h-full" src="./img/icon/dps.webp"></div></div></div>' +
-                        '</di>');
-                    for (let [k, v] of Object.entries(buffs)) {   
+                    $('#container-fights').append('<div class="boss-item h-full w-full text-white text-4xl font-extrabold flex items-center justify-center" onclick="showBossTeam('+idBoss+')" >'+nameBoss+'</div>');
+                    $('#teams').append('<div id="group-'+idBoss+'" class="group-container hidden"></div>');
+                    /*<div class="buff-container flex !hidden" id="buff-' + idBoss + '"></div>*/
+                    builderContentMain(nameBoss,nameBoss);
+                    // $("#teams").append('<div id="boss-' + idBoss + '" class="item-container-boss sticky top-0 items-center justify-between w-full p-4 border-2 bg-gray-800 border-gray-700 my-6"' +
+                    //     ' data-report="' + reportSign + '" data-boss="' + idBoss + '" data-start="' + startBoss + '" data-end="' + endBoss + '">' +
+                    //     '<div class="flex items-center justify-between"><p class="font-semibold text-gray-700 dark:text-white text-xl">' + nameBoss + '</p>' +
+                    //     '<div class="role-container font-extrabold flex items-center gap-4 hidden h-10"><div class="text-blue-500 h-full"><img class="h-full" src="./img/icon/tank.webp"></div><div class="text-green-500 h-full"><img class="h-full" src="./img/icon/heal.webp"></div><div class="text-red-500 h-full"><img class="h-full" src="./img/icon/dps.webp"></div></div></div>' +
+                    //     '</di>');
+                   /*for (let [k, v] of Object.entries(buffs)) {   
                         $('#buff-'+idBoss).append('<div><img class="h-8" src="'+v.pathImg+'" ></div>');
-                    }
-                    preciseFight(reportSign, idBoss, startBoss, endBoss);
+                    }*/
+                    preciseFight(reportSign, idBoss, startBoss, endBoss, nameBoss);
                 }
             }
         })
@@ -69,11 +90,11 @@ function reportTarget(idReport) {
 }
 
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
-function preciseFight(report, idBoss, start, end) {
+function preciseFight(report, idBoss, start, end, nameBoss) {
     let allGroupMap = {};
     $('.role-container').removeClass('hidden');
     $('.buff-container').removeClass('!hidden');
-    $('#boss-' + idBoss).after('<div id="contentBoss-' + idBoss + '" class="px-4 text-sm text-gray-500 dark:text-gray-300 grid grid-cols-1 xl:grid-cols-2 gap-4"></div>');
+    $('#group-' + idBoss).append('<h2 class="text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">Fight - '+nameBoss+'</h2><div class="overflow-auto h-[calc(100vh-4rem)]"><div id="contentBoss-' + idBoss + '" class="p-6 text-sm text-gray-500 dark:text-gray-300 grid grid-cols-1 xl:grid-cols-2 gap-4 overflow-auto h-full"></div></div>');
     fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
         .then((resp) => resp.json())
         .then(function (specifikFight) {
@@ -154,3 +175,4 @@ function preciseFight(report, idBoss, start, end) {
             }
         });
 }
+

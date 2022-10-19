@@ -14,28 +14,18 @@
               <div class="inline-flex h-16 w-16 items-center justify-center">
                 <span class="block h-10 w-10 rounded-lg bg-gray-200"></span>
               </div>
-              <div class="border-t border-gray-100">
+              <div>
                 <nav aria-label="Main Nav" class="flex flex-col p-2">
-                    <div class="py-4">
-                        <a
-                          href=""
-                          class="t group relative flex justify-center rounded bg-blue-50 px-2 py-1.5 text-blue-700"
-                        >
-                            <img src="img/icon/fight.svg" alt="">
-              
-                          <span
-                            class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
-                          >
-                            Fights
-                          </span>
-                        </a>
-                      </div>
                   <ul class="space-y-1 pt-4 border-t border-gray-100 ">
                     <li>
-                      <a
-                        href=""
-                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      >
+                        <div data-nav="fights" class="nav-item group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700" >
+                            <img src="img/icon/fight.svg" alt="">
+                            <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Fights</span>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div data-nav="teams" class="nav-item group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           class="h-5 w-5 opacity-75"
@@ -56,10 +46,10 @@
                         >
                           Teams
                         </span>
-                      </a>
+                      </div>
                     </li>
           
-                    <li>
+                    <!-- <li>
                       <a
                         href=""
                         class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
@@ -142,6 +132,7 @@
                         </span>
                       </a>
                     </li>
+
                     <li>
                         <a
                           href=""
@@ -168,7 +159,7 @@
                             CPM
                           </span>
                         </a>
-                      </li>
+                      </li> -->
                   </ul>
                 </nav>
               </div>
@@ -187,10 +178,10 @@
                         type="text" placeholder="Here !" />
                 </div>
             </div>
-            <div id="fights" class="!hidden h-screen"></div>
-            <div id="players" class="!hidden h-screen"></div>
-            <div id="buffs" class="!hidden h-screen"></div>
-            <div id="debuffs" class="!hidden h-screen"></div>
+            <div id="fights" class="bloc-main !hidden h-screen"></div>
+            <div id="teams" class="bloc-main !hidden h-screen"></div>
+            <div id="buffs" class="bloc-main !hidden h-screen"></div>
+            <div id="debuffs" class="bloc-main !hidden h-screen"></div>
         </div>
  
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
