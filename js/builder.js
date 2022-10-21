@@ -15,6 +15,35 @@ function MoneyFormat(labelValue) {
                 : Math.abs(Number(labelValue));
 
 }
+
+
+function timestampWithoutMillisecond(timestamp) {
+    return Math.trunc(timestamp / 1000);
+}
+
+function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year;
+    return time;
+}
+
+function timeDuration(t) {
+    var a = new Date(t * 1000);
+    var min = a.getMinutes();
+    if (min < 10) { min = '0' + min }
+    var sec = a.getSeconds();
+    if (sec < 10) { sec = '0' + sec }
+    var time = min + ':' + sec;
+    return time;
+}
+
 let traitType = {
     1: 'Divin',
     3: 'Infusé',
@@ -68,7 +97,7 @@ let qualityEquipment = {
     4: '#a335ee',
     5: '#e5cc80',
 }
-let buffs = {
+let buffsTab = {
     ForceMajeure: {
         code: 154830,
         pathImg:'https://assets.rpglogs.com/img/eso/abilities/ability_buff_major_force.png'
