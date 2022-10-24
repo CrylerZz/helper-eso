@@ -15,12 +15,9 @@ function MoneyFormat(labelValue) {
                 : Math.abs(Number(labelValue));
 
 }
-
-
 function timestampWithoutMillisecond(timestamp) {
     return Math.trunc(timestamp / 1000);
 }
-
 function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -33,7 +30,6 @@ function timeConverter(UNIX_timestamp) {
     var time = date + ' ' + month + ' ' + year;
     return time;
 }
-
 function timeDuration(t) {
     var a = new Date(t * 1000);
     var min = a.getMinutes();
@@ -43,7 +39,6 @@ function timeDuration(t) {
     var time = min + ':' + sec;
     return time;
 }
-
 let traitType = {
     1: 'Divin',
     3: 'Infusé',
@@ -62,9 +57,12 @@ let traitType = {
     14: 'Harmonieux',
     15: 'Sain',
     24: 'Décisif',
-    25: 'Défenseur'
+    25: 'Défenseur',
+    16: 'Infusé',
+    21: 'Vif'
 }
 let enchantType = {
+    0: 'Tri-stat',
     3: 'Absorption de vigueur',
     22: 'Magie',
     35: 'Vigeur',
@@ -163,6 +161,8 @@ let buffsTab = {
         pathImg:'https://assets.rpglogs.com/img/eso/abilities/gear_kothringikilt_a.png'
     },
 }
+
+
 
 
 

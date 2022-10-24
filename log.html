@@ -1,205 +1,198 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" style="height: 100%">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Logs</title>
-        <link rel="stylesheet" href="scss/actor.css">
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="bg-gray-900 h-screen overflow-hidden flex items-start justify-center">
-        <!-- Side menu -->
-        <div class="flex h-screen w-16 flex-col justify-between border-r bg-white sticky left-0 top-0 z-50">
-            <div>
-              <div class="inline-flex h-16 w-16 items-center justify-center">
-                <span class="block h-10 w-10 rounded-lg bg-gray-200"></span>
-              </div>
-              <div>
-                <nav aria-label="Main Nav" class="flex flex-col">
-                    <!-- <ul class="border-t border-gray-100">
-                        <li onclick="showBossContainer()" class="h-16 w-16 flex items-center justify-center hover:bg-gray-100 cursor-pointer group">
-                            <div data-nav="fights" class="nav-item  relative flex justify-center rounded px-2 py-1.5 text-gray-500" >
-                                <img src="img/icon/fight.svg" alt="">
-                                <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Fights</span>
-                            </div>
-                        </li>
-                    </ul> -->
-                    <div class="boss-container-nav border-t border-gray-100"></div>
 
-                    <!-- <li onclick="showTeamsContainer()" class="h-16 w-16 flex items-center justify-center hover:bg-gray-100 cursor-pointer group">
-                      <div data-nav="teams" class="nav-item relative flex justify-center rounded px-2 py-1.5 text-gray-500" >
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 opacity-75"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                        </svg>
-                        <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Teams</span>
-                      </div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logs</title>
+    <link rel="stylesheet" href="scss/actor.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 h-screen overflow-hidden flex items-start justify-center">
+    <!-- SideNav -->
+    <div
+        class="w-16 h-full bg-white flex items-center justify-start flex-col border-r-2 border-gray-100 sticky top-0 left-0 z-50">
+        <div class="w-16 h-16 flex items-center justify-center border-b-2  border-gray-100 "><img
+                class="h-10 w-10 rounded-lg" src="./img/icon/me.jpeg" alt=""></div>
+        <div>
+            <nav>
+                <ul>
+                    <li
+                        class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group">
+                        <img class="w-6" src="./img/icon/fight.svg" alt="">
+                        <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 
+            text-xs font-medium text-white hidden group-hover:opacity-100 group-hover:block z-50">Fights</span>
+                    </li>
+                    <!-- <li
+                        class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group">
+                        <img class="w-6" src="./img/icon/fight.svg" alt="">
+                        <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 
+            text-xs font-medium text-white hidden group-hover:opacity-100 group-hover:block">Group</span>
                     </li> -->
-                    <!-- <li>
-                      <a
-                        href=""
-                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5 opacity-75"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                          />
-                        </svg>
-          
-                        <span
-                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
-                        >
-                          Buffs
-                        </span>
-                      </a>
-                    </li>
-          
-                    <li>
-                      <a
-                        href=""
-                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5 opacity-75"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                          />
-                        </svg>
-          
-                        <span
-                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
-                        >
-                          Debuffs
-                        </span>
-                      </a>
-                    </li>
-          
-                    <li>
-                      <a
-                        href=""
-                        class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5 opacity-75"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          />
-                        </svg>
-          
-                        <span
-                          class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
-                        >
-                          Damage
-                        </span>
-                      </a>
-                    </li>
-
-                    <li>
-                        <a
-                          href=""
-                          class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 opacity-75"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                            />
-                          </svg>
-            
-                          <span
-                            class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
-                          >
-                            CPM
-                          </span>
-                        </a>
-                      </li> -->
-                </nav>
-              </div>
-            </div>
+                    <!-- <li
+                        class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group">
+                        <img class="w-6" src="./img/icon/player.svg" alt="">
+                        <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 
+            text-xs font-medium text-white hidden group-hover:opacity-100 group-hover:block">User</span>
+                    </li> -->
+                </ul>
+                <ul class="boss-container-nav"></ul>
+            </nav>
         </div>
-        <!-- Main container -->
-        <div class="main-container flex-1 w-full h-screen ">
-            <!-- Title Container -->
-            <div class="title-container bg-white h-16 w-full text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5"></div>
-            <div class="input-container w-full h-screen flex items-center justify-center">
+    </div>
+    <!-- Main Container -->
+    <div class="main-container h-screen w-full">
+        <div
+            class="title-container h-16 bg-white w-full border-b-2 border-gray-100 sticky top-0 flex items-center px-4">
+            <span class="uppercase font-extrabold"></span>
+        </div>
+        <div class="h-[calc(100vh-4rem)]">
+            <div id="input-content" class="w-full h-screen flex items-center justify-center">
                 <div class="px-10 max-w-4xl w-full">
                     <div class="flex items-center justify-between">
                         <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
                         <p class="text-white">kYN7JVX1ZGt4xnWq</p>
                     </div>
                     <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
-                        class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2"
-                        type="text" placeholder="Here !" />
+                        class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text"
+                        placeholder="Here !" />
                 </div>
             </div>
-            <div id="fights" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
-            <div id="teams" class="bloc-main !hidden h-[calc(100vh-4rem)]">
+            <div id="fights-content" class="bloc-main h-full hidden"></div>
+            <div id="group-content" class="bloc-main h-full hidden">
                 <div class="flex items-center justify-between bg-black h-16 px-5">
                     <div class="role-container flex items-center justify-center gap-4">
-                        <div id="dps" class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer"><img class="h-6" src="img/icon/dps.webp" alt=""></div>
-                        <div id="healer" class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer"><img class="h-6" src="img/icon/heal.webp" alt=""></div>
-                        <div id="tank" class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer"><img class="h-6" src="img/icon/tank.webp" alt=""></div>
+                        <div id="dps"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/dps.webp" alt="" />
+                        </div>
+                        <div id="healer"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/heal.webp" alt="" />
+                        </div>
+                        <div id="tank"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/tank.webp" alt="" />
+                        </div>
                     </div>
                     <div class="filter-container flex items-center justify-center gap-4">
-                        <div id="gear" class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">Gear</div>
-                        <div id="spell" class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">Spell</div>
-                        <div id="buff" class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">Buff</div>
-                        <div id="damage" class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">Damage</div>
-                        <div id="cpm" class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">CPM</div>
+                        <div id="gear"
+                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+                            Gear
+                        </div>
+                        <div id="spell"
+                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+                            Spell
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="buffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
-            <div id="debuffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+            <div id="user-content" class="bloc-main h-full hidden"></div>
         </div>
- 
-        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-                integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-        <script src="js/builder.js"></script>
-        <script src="js/main.js"></script>
+    </div>
 
-    </body>
+
+    <!-- Side menu -->
+    <!-- <div class="flex h-screen w-16 flex-col justify-between border-r bg-white sticky left-0 top-0 z-50">
+    <div>
+      <div class="inline-flex h-16 w-16 items-center justify-center">
+        <span class="block h-10 w-10 rounded-lg bg-gray-200"></span>
+      </div>
+      <div>
+        <nav aria-label="Main Nav" class="flex flex-col">
+          <ul class="border-t border-gray-100">
+            <li onclick="showBossContainer()"
+              class="h-16 w-16 flex items-center justify-center hover:bg-gray-100 cursor-pointer group">
+              <div data-nav="fights" class="nav-item relative flex justify-center rounded px-2 py-1.5 text-gray-500">
+                <img src="img/icon/fight.svg" alt="" />
+                <span
+                  class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Fights</span>
+              </div>
+            </li>
+            <li class="h-16 w-16 flex items-center justify-center hover:bg-gray-100 cursor-pointer group">
+              <div data-nav="group" class="nav-item relative flex justify-center rounded px-2 py-1.5 text-gray-500">
+                <img class="h-5" src="img/icon/group.svg" alt="" />
+                <span
+                  class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Group</span>
+              </div>
+            </li>
+            <li class="h-16 w-16 flex items-center justify-center hover:bg-gray-100 cursor-pointer group">
+              <div data-nav="player" class="nav-item relative flex justify-center rounded px-2 py-1.5 text-gray-500">
+                <img class="h-5" src="img/icon/player.svg" alt="" />
+                <span
+                  class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">Player</span>
+              </div>
+            </li>
+          </ul>
+          <div class="boss-container-nav border-t border-gray-100"></div>
+          <div class="player-container-nav border-t border-gray-100"></div>
+        </nav>
+      </div>
+    </div>
+  </div> -->
+    <!-- Main container -->
+    <!-- <div class="main-container flex-1 w-full h-screen">
+    <div
+      class="title-container bg-white h-16 w-full text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">
+    </div>
+
+    <div class="input-container w-full h-screen flex items-center justify-center">
+      <div class="px-10 max-w-4xl w-full">
+        <div class="flex items-center justify-between">
+          <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
+          <p class="text-white">kYN7JVX1ZGt4xnWq</p>
+        </div>
+        <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
+          class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text" placeholder="Here !" />
+      </div>
+    </div>
+
+    <div>
+      <div id="fights" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+      <div id="teams" class="bloc-main !hidden h-[calc(100vh-4rem)]">
+        <div class="flex items-center justify-between bg-black h-16 px-5">
+          <div class="role-container flex items-center justify-center gap-4">
+            <div id="dps"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/dps.webp" alt="" />
+            </div>
+            <div id="healer"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/heal.webp" alt="" />
+            </div>
+            <div id="tank"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/tank.webp" alt="" />
+            </div>
+          </div>
+          <div class="filter-container flex items-center justify-center gap-4">
+            <div id="gear"
+              class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+              Gear
+            </div>
+            <div id="spell"
+              class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+              Spell
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="buffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+      <div id="debuffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+    </div>
+  </div> -->
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="js/builder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
 </html>
