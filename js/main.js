@@ -32,6 +32,7 @@ function showBossTeam(id, name) {
 }
 
 function showUserTeam(id, name) {
+    $('#input-content').addClass('hidden');
     $('.title-container').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">Users</span>');
     $('#fights-content').addClass('hidden');
     $('#group-content').addClass('hidden');
@@ -57,7 +58,7 @@ $('#spell').click(function(){
 //     $("#" + id).append('<div id="container-' + id + '" class="overflow-auto h-full flex items-center justify-center"></div>');
 // }
 
-function buildGearForChara(data, idPerso, boss) {
+function buildGearForChara(data, idPerso, boss, target) {
     let nameGear = data.name;
     let champLvlGear = data.championPoints;
     let qualityGear = qualityEquipment[data.quality];
@@ -65,7 +66,7 @@ function buildGearForChara(data, idPerso, boss) {
     let enchantGear = enchantType[data.enchantType];
     let enchantQuality = qualityEnchant[data.enchantQuality];
     if (data.id > 0) {
-        $('#group-' + boss + ' #gear-' + idPerso).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>" + nameGear +
+        $(target).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>" + nameGear +
             (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
             "<div>" +
             "<span class='inline-block rounded text-gray-600 px-2 py-1 text-xs font-bold mr-3' style='background:" + enchantQuality + "'>" + enchantGear + "</span>" +
@@ -104,8 +105,8 @@ function showBossContainer() {
 // }
 
 let fightMap = {};
+let trashMap = {}
 let buffsArray = {};
-
 function reportTarget(idReport) {
     fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key=b578a559d4215fb444928808da6976ec")
         .then((response) => response.json())
@@ -140,24 +141,42 @@ function reportTarget(idReport) {
         });
 }
 
-
-/*for (let [k, v] of Object.entries(buffs)) {   
-    $('#buff-'+idBoss).append('<div><img class="h-8" src="'+v.pathImg+'" ></div>');
-}*/
 let allGroupMap = {};
-
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
 function preciseFight(report, idBoss, start, end, nameBoss) {
-    postData("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec", { answer: 42 })
-    .then((summary) => {
-        console.log(summary); // JSON data parsed by `data.json()` call
+    $('#input-content').remove();
+    $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
+    Promise.all([
+        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
+        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
+        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
+        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
+        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
+        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
+    ]).then(function (responses) {
+        // Get a JSON object from each of the responses
+        return Promise.all(responses.map(function (response) {
+            $('.loader').addClass('hidden');
+            return response.json();
+        }));
+    }).then(function (data) {
+        // Log the data to the console
+        // You would do something with both sets of data here
+        //console.log();
+        let summary = data[0];
+        let damageDone = data[1];
+        let casts = data[2];
+        let summons = data[3];
+        let buffs = data[4];
+        let deaths = data[5];
+
         let allGroup = summary.composition;
         let allDamageDone = summary.damageDone;
         let pDetail = summary.playerDetails;
         let fullDamage = 0;
         for (let group of allGroup) {
             allGroupMap[group.id] = group;
-      
+    
         }
         for (let [key, value] of Object.entries(allGroup)) {
             allGroupMap[value.id]['role'] = value.specs[0].role;
@@ -174,21 +193,9 @@ function preciseFight(report, idBoss, start, end, nameBoss) {
                 allGroupMap[data[indexP].id]['championPoints'] = data[indexP].maxItemLevel;
                 allGroupMap[data[indexP].id]['gear'] = data[indexP].combatantInfo.gear;
                 allGroupMap[data[indexP].id]['talents'] = data[indexP].combatantInfo.talents;
-                allGroupMap[data[indexP].id]['buffs'] = {};
+                allGroupMap[data[indexP].id]['buffs'] = [];
             }
         }
-        /*
-        for (let [k, v] of Object.entries(buffsTab)) {   
-            fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&abilityid="+v.code+"&api_key=b578a559d4215fb444928808da6976ec")
-            .then((response) => response.json())
-            .then(function(buffsTable){
-                for (let [key, value] of Object.entries(buffsTable['auras'])) {
-                    allGroupMap[value.id]['uptime' + k] = value.totalUptime;
-                }    
-            }).catch(function (error) { });
-        }*/
-
-//<img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">
         for (let f = 1; f <= Object.keys(allGroupMap).length; f++) {
             let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
             let dmgPerDD = allGroupMap[f].dmgOutput;
@@ -199,7 +206,8 @@ function preciseFight(report, idBoss, start, end, nameBoss) {
             let idChara = allGroupMap[f].id;
             let gear = allGroupMap[f].gear;
             let talents = allGroupMap[f].talents;
-            //let buffs = allGroupMap[f].buffs;
+            let cpm = allGroupMap[f].cpm;
+            console.log(allGroupMap[f].id);
             $('#group-' + idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + allGroupMap[f].role + '">' +
                 '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between w-full">' +
                 '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '"><span>' + name + ' - ' + displayName + ' - ' + classChara + '</span></div><span>' + parseFloat(dmgPerDD).toPrecision(3) + dmgPerDD.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span></div>' +
@@ -208,67 +216,60 @@ function preciseFight(report, idBoss, start, end, nameBoss) {
                 '<div id="spell-' + idChara + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
                 '</div>' +
                 '</div>');
-            $('#user-'+ idBoss).append('<div class=" flex items-center justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative cursor-pointer hover:bg-gray-800">'+
-            '<div class="font-extrabold flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + '</div><span class="absolute top-4 left-4 text-gray-700 text-xs">' + displayName + '</span><span class="absolute bottom-4 right-4 text-xs text-gray-400">' + classChara + '</span>'+
-            '</div>');
-
+                $('#user-'+ idBoss).append('<div class=" flex items-center justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative cursor-pointer hover:bg-gray-800">'+
+                '<div class="font-extrabold flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + '</div><span class="absolute top-4 left-4 text-gray-700 text-xs">' + displayName + '</span><span class="absolute bottom-4 right-4 text-xs text-gray-400">' + classChara + '</span>'+
+                '</div>');
+                $('#user-content').append('<div id="chara-'+idChara+'-'+idBoss+'" class="p-6 overflow-auto h-full gap-4 flex flex-col">'+
+                '<div><div class="text-4xl text-white font-extrabold flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-4" src="' + pathIconDD + '">' + name + '</div>'+cpm+'</div>'+
+                '<div class="grid grid-flow-col auto-cols-max gap-4 container-user-'+idChara+'-'+idBoss+'"></div>'+
+                '</div>');
+                $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                '<div class="text-white font-bold text-xl p-6 bg-gray-800">Stuffs</div>'+
+                '<div class="p-6 stuff"></div></div>');
+                $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                '<div class="text-white font-bold text-xl p-6 bg-gray-800">Damage Done</div>'+
+                '<div class="p-6 dmg"></div></div>');
+                $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                '<div class="text-white font-bold text-xl p-6 bg-gray-800">Spell</div>'+
+                '<div class="p-6 spell"></div></div>');
+                $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                '<div class="text-white font-bold text-xl p-6 bg-gray-800">Set Uptime</div>'+
+                '<div class="p-6 set"></div></div>');
+                $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                '<div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>'+
+                '<div class="p-6 buff"></div></div>');
+                
             for (let g in gear) {
                 if (gear[g].id > 0) {
-                    buildGearForChara( gear[g],idChara, idBoss );
+                    buildGearForChara( gear[g],idChara, idBoss, '#group-' + idBoss + ' #gear-' + idChara );
+                    buildGearForChara( gear[g],idChara, idBoss, '.container-user-'+idChara+'-'+idBoss+' .stuff' );
                 }
             }
             for (let t in talents) {
                 builderCompForChara(talents[t], idChara, idBoss);
             }
         }
+
+    }).catch(function (error) {
+        // if there's an error, log it
+        console.log(error);
     });
-        // postData("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec", { answer: 42 })
-        // .then((data) => {
-        //     console.log(data); // JSON data parsed by `data.json()` call
-        // });
+      
 }
 
+     /*
+        for (let [k, v] of Object.entries(buffsTab)) {   
+            fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&abilityid="+v.code+"&api_key=b578a559d4215fb444928808da6976ec")
+            .then((response) => response.json())
+            .then(function(buffsTable){
+                for (let [key, value] of Object.entries(buffsTable['auras'])) {
+                    allGroupMap[value.id]['uptime' + k] = value.totalUptime;
+                }    
+            }).catch(function (error) { });
+        }*/
 
 
 
-async function postData(url = '', data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    });
-    
-    return response.json(); // parses JSON response into native JavaScript objects
-  }
-  
-
-
-
-
-/*
-function fetchDamageDone(report, idBoss, start, end, allGroupMap){
-    fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
-        .then((resp) => resp.json())
-        .then(function (fullDamageDone) {
-            //console.log(fullDamageDone);
-            
-            for (let [key, value] of Object.entries(fullDamageDone.entries)) {
-                console.log(value);
-                allGroupMap[value.id]['cpm'] = value.activeTime;
-                allGroupMap[value.id]['targets'] = value.targets;
-
-            }
-        })
-        .catch((error) => {
-            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-        });
-}
-*/
 
 // var chartData = {
 //     datasets: [{

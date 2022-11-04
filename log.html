@@ -18,12 +18,12 @@
         <div>
             <nav>
                 <ul>
-                    <li
+                    <!-- <li
                         class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group">
                         <img class="w-6" src="./img/icon/fight.svg" alt="">
                         <span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 
             text-xs font-medium text-white hidden group-hover:opacity-100 group-hover:block z-50">Fights</span>
-                    </li>
+                    </li> -->
                     <!-- <li
                         class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group">
                         <img class="w-6" src="./img/icon/fight.svg" alt="">
@@ -49,10 +49,10 @@
         </div>
         <div class="h-[calc(100vh-4rem)]">
             <div id="input-content" class="w-full h-screen flex items-center justify-center">
-                <div class="px-10 max-w-4xl w-full">
+                <div class="px-10 max-w-4xl w-full space-y-4">
                     <div class="flex items-center justify-between">
                         <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
-                        <p class="text-white">kYN7JVX1ZGt4xnWq</p>
+                        <p class="text-white">kYN7JVX1ZGt4xnWq </p>
                     </div>
                     <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
                         class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text"
@@ -88,7 +88,52 @@
                     </div>
                 </div>
             </div>
-            <div id="user-content" class="bloc-main h-full hidden"></div>
+            <div id="user-content" class="bloc-main h-full">
+                <!-- TODO : Stuff / Spell with uptime / Set with uptime if necessary / Damage Done in detail (Per Spell or seomething) / Buff with uptime -->
+                <!-- Knowing which buffs are important to have as a base for any character -->
+                <div class="p-6 overflow-auto h-full gap-4 flex flex-col">
+                    <div class="text-4xl text-white font-extrabold">@Revaxon - Crylerz</div>
+                    <div class="grid grid-cols-3 gap-4 ">
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Stuffs</div>
+                            <div class="p-6">
+                                Data.gear
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Spell</div>
+                            <div class="p-6">
+                                Data.abilities
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Set Uptime</div>
+                            <div class="p-6">
+                                Data.gearUptime (ex:Relequen)
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Damage done</div>
+                            <div class="p-6">
+                                Data.dmgDetails
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>
+                            <div class="p-6">
+                                Data.buffs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 
