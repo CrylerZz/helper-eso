@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logs</title>
+    <link rel="stylesheet" href="scss/actor.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 h-screen overflow-hidden flex items-start justify-center">
+    <!-- SideNav -->
+    <div class="w-16 h-full bg-white flex items-center justify-start flex-col sticky top-0 left-0 z-50">
+        <div class="w-16 h-16 flex items-center justify-center border-b-2 border-gray-100 ">
+            <img class="h-10 w-10 rounded-lg" src="./img/icon/me.jpeg" alt="">
+        </div>
+        <div>
+            <!-- Nav pour les combats avec wipes & other -->
+            <div class="group relative">
+                <div class="w-16 h-16 flex items-center justify-center cursor-pointer group-hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current ">
+                        <rect width="352" height="32" x="80" y="96"></rect>
+                        <rect width="352" height="32" x="80" y="240"></rect>
+                        <rect width="352" height="32" x="80" y="384"></rect>
+                    </svg>
+                </div>
+                <div class="container-main-nav absolute left-full top-0 hidden group-hover:block border-r-2 border-gray-700 w-max bg-gray-900 h-[calc(100vh-4rem)] overflow-auto">
+                    <!-- <div class="boss-nav-container">
+                        <div class="flex items-center gap-4 h-16 px-4 bg-gray-800">
+                            <img class="h-8 w-8 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/1-icon.png"/>
+                            <span class="text-sm text-white font-extrabold">Atronach de foudre intense</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 bg-green-600 hover:bg-green-500 cursor-pointer h-10 text-white text-sm font-extrabold px-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                                    <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>Kill - 13:12</span>
+                            </div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Wipe 1 - 1:14</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Wipe 2 - 1:14</div>
+                        </div>
+                    </div>
+             -->
+                    <!-- TRASH CATEGORIE -->
+                    <!-- <div class="trash-nav-container">
+                        <div class="flex items-center gap-4 h-16 px-4 bg-gray-800">
+                            <span class="text-sm text-white font-extrabold">Trashs</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Atronach de glace (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage surchargeuse (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage tresse-chaîne (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage suppresseur (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage tresse-chaîne (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Atronach de glace (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage surchargeuse (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage tresse-chaîne (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage suppresseur (0:51)</div>
+                            <div class="flex items-center gap-4 hover:bg-gray-700 cursor-pointer h-10 text-white text-xs font-extrabold px-4">Primage tresse-chaîne (0:51)</div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <!-- Nav pour les combats passés seulement -->
+            <ul class="boss-container-nav isKilled"></ul>
+
+            <!-- <nav>
+                <ul class="boss-container-nav">
+                    <li class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group" onclick="showBossTeam()" >
+                        <img class="h-10 w-10 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/1-icon.png"/>
+                        <div class="absolute border-2 border-gray-700 left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white w-max opacity-0 group-hover:opacity-100 hidden group-hover:block">Name Boss</div>
+                    </li>
+                    <li class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group" onclick="showBossTeam()" >
+                        <img class="h-10 w-10 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/2-icon.png"/>
+                        <div class="absolute border-2 border-gray-700 left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white w-max opacity-0 group-hover:opacity-100 hidden group-hover:block">Name Boss</div>
+                    </li>
+                    <li class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group" onclick="showBossTeam()" >
+                        <img class="h-10 w-10 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/3-icon.png"/>
+                        <div class="absolute border-2 border-gray-700 left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white w-max opacity-0 group-hover:opacity-100 hidden group-hover:block">Name Boss</div>
+                    </li>
+
+                    <li class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group" onclick="showBossTeam()" >
+                        <img class="h-10 w-10 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/4-icon.png"/>
+                        <div class="absolute border-2 border-gray-700 left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white w-max opacity-0 group-hover:opacity-100 hidden group-hover:block">Name Boss</div>
+                    </li>
+                </ul>
+            </nav> -->
+    
+        </div>
+        <div class="w-16 h-16 flex items-center justify-center border-t-2 border-gray-100 absolute bottom-0 left-0 text-[10px] hover:bg-gray-100 cursor-pointer">
+            Reload
+        </div>
+    </div>
+    <!-- Main Container -->
+    <div class="main-container h-screen w-full">
+        <div class="title-container h-16 bg-white w-full border-b-2 border-gray-100 sticky top-0 flex items-center px-4">
+            <span class="uppercase font-extrabold"></span>
+        </div>
+        <div class="h-[calc(100vh-4rem)]">
+            <div id="input-content" class="w-full h-screen flex items-center justify-center">
+                <div class="px-10 max-w-4xl w-full space-y-4">
+                    <div class="flex items-center justify-between">
+                        <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
+                        <p class="text-white">zpjbZmvtc7M4JxXN</p>
+                    </div>
+                    <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
+                        class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text"
+                        placeholder="Here !" />
+                </div>
+            </div>
+            <div id="fights-content" class="bloc-main h-full flex !hidden"></div>
+            
+            <div id="group-content" class="bloc-main h-full hidden">
+                <div class="flex items-center justify-between bg-black h-16 px-5">
+                    <div class="role-container flex items-center justify-center gap-4">
+                        <div id="dps"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/dps.webp" alt="" />
+                        </div>
+                        <div id="healer"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/heal.webp" alt="" />
+                        </div>
+                        <div id="tank"
+                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+                            <img class="h-6" src="img/icon/tank.webp" alt="" />
+                        </div>
+                    </div>
+                    <div class="filter-container flex items-center justify-center gap-4">
+                        <div id="gear"
+                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+                            Gear
+                        </div>
+                        <div id="spell"
+                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+                            Spell
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="user-content" class="bloc-main h-full hidden">
+                <!-- TODO : Stuff / Spell with uptime / Set with uptime if necessary / Damage Done in detail (Per Spell or seomething) / Buff with uptime -->
+                <!-- Knowing which buffs are important to have as a base for any character -->
+                <div class="p-6 overflow-auto h-full gap-4 flex flex-col">
+                    <div class="text-4xl text-white font-extrabold">@Revaxon - Crylerz</div>
+                    <div class="grid grid-cols-3 gap-4 ">
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Stuffs</div>
+                            <div class="p-6">
+                                Data.gear
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Spell</div>
+                            <div class="p-6">
+                                Data.abilities
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Set Uptime</div>
+                            <div class="p-6">
+                                Data.gearUptime (ex:Relequen)
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Damage done</div>
+                            <div class="p-6">
+                                Data.dmgDetails
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">
+                            <div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>
+                            <div class="p-6">
+                                Data.buffs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main container -->
+    <!-- <div class="main-container flex-1 w-full h-screen">
+    <div
+      class="title-container bg-white h-16 w-full text-4xl font-extrabold uppercase h-16 bg-white flex items-center px-5">
+    </div>
+
+    <div class="input-container w-full h-screen flex items-center justify-center">
+      <div class="px-10 max-w-4xl w-full">
+        <div class="flex items-center justify-between">
+          <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
+          <p class="text-white">kYN7JVX1ZGt4xnWq</p>
+        </div>
+        <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
+          class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text" placeholder="Here !" />
+      </div>
+    </div>
+
+    <div>
+      <div id="fights" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+      <div id="teams" class="bloc-main !hidden h-[calc(100vh-4rem)]">
+        <div class="flex items-center justify-between bg-black h-16 px-5">
+          <div class="role-container flex items-center justify-center gap-4">
+            <div id="dps"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/dps.webp" alt="" />
+            </div>
+            <div id="healer"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/heal.webp" alt="" />
+            </div>
+            <div id="tank"
+              class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
+              <img class="h-6" src="img/icon/tank.webp" alt="" />
+            </div>
+          </div>
+          <div class="filter-container flex items-center justify-center gap-4">
+            <div id="gear"
+              class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+              Gear
+            </div>
+            <div id="spell"
+              class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
+              Spell
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="buffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+      <div id="debuffs" class="bloc-main !hidden h-[calc(100vh-4rem)] overflow-auto"></div>
+    </div>
+  </div> -->
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="js/builder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
