@@ -92,7 +92,7 @@ function showBossContainer() {
 }
 
 // function showGroupContainer(){
-    
+
 // }
 
 // function showPlayerContainer(){
@@ -150,11 +150,11 @@ function reportTarget(idReport) {
                     if(killedBossInfo !== false){
                         $('#fights-content').append('<div class="boss-item h-full w-full text-white text-4xl font-extrabold flex items-center justify-center flex-col gap-5 cursor-pointer text-center" ><img class="h-24 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<br>'+durationBoss+
                         '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
-                        '<div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showUserTeam(' + idBoss + ',\'' + nameBoss + '\')">Show User</div></div></div>');    
+                        '<div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showUserTeam(' + idBoss + ',\'' + nameBoss + '\')">Show User</div></div></div>');
                     }
                     $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
 
-                    //preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss);
+                    preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss);
 
                     //  onclick="showBossTeam(' + idBoss + ',\'' + nameBoss + '\')"
 
@@ -163,7 +163,7 @@ function reportTarget(idReport) {
 
 
 
-                    
+
                     // $('#group-content').append('<div id="group-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
                     //$('#user-content').append('<div id="user-' + idBoss + '" class="user-container hidden grid grid-cols-3 gap-4 p-6 overflow-auto h-full"></div>');
                     //preciseFight(reportSign, idBoss, startBoss, endBoss, nameBoss);
@@ -196,7 +196,6 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
     }).then(function (data) {
         // Log the data to the console
         // You would do something with both sets of data here
-        console.log(data);
         let summary = data[0];
         let damageDone = data[1];
         let casts = data[2];
@@ -204,6 +203,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
         let buffs = data[4];
         let deaths = data[5];
 
+        console.log(idFight,idBoss, nameBoss);
         let allGroup = summary.composition;
         //console.log(allGroup);
         let allDamageDone = summary.damageDone;
@@ -212,7 +212,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
         let fullDamage = 0;
         for (let group of allGroup) {
             allGroupMap[group.id] = group;
-    
+
         }
         for (let [key, value] of Object.entries(allGroup)) {
             allGroupMap[value.id]['role'] = value.specs[0].role;
@@ -236,11 +236,12 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
             }
         }
         for (let [key, data] of Object.entries(allGroupMap)){
-            //console.log(key, data);
+            console.log(key, data);
         }
 
 /*
-        for (let f = 1; f <= Object.keys(allGroupMap).length; f++) {
+        for (let [key, data] of  Object.keys(allGroupMap)) {
+            console.log(key, allGroupMap);
             let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
             //let dmgPerDD = allGroupMap[f].dmgOutput;
             //let percentDmg = (allGroupMap[f].dmg * 100) / fullDamage;
@@ -253,6 +254,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
             //let cpm = allGroupMap[f].cpm;
             //console.log(allGroupMap[f].id);
             //console.log(allGroupMap[f].displayName);
+            /*
             $('#group-'+idFight+'-'+idBoss).append('<div id="' + allGroupMap[f].displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + allGroupMap[f].role + '">' +
                 '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between w-full">' +
                 '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + allGroupMap[f].icon + ' mr-2" src="' + pathIconDD + '"><span>' + name + ' - ' + allGroupMap[f].displayName + ' - ' + allGroupMap[f].icon + '</span></div><span>' + parseFloat(allGroupMap[f].dmgOutput).toPrecision(3) + allGroupMap[f].dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + ((allGroupMap[f].dmg * 100) / fullDamage).toFixed(2) + '%</span></div>' +
@@ -261,6 +263,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
                 '<div id="spell-' + allGroupMap[f].id + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
                 '</div>' +
                 '</div>');
+            */
                 // $('#user-'+ idBoss).append('<div class=" flex items-center justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative cursor-pointer hover:bg-gray-800">'+
                 // '<div class="font-extrabold flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + '</div><span class="absolute top-4 left-4 text-gray-700 text-xs">' + displayName + '</span><span class="absolute bottom-4 right-4 text-xs text-gray-400">' + classChara + '</span>'+
                 // '</div>');
@@ -283,7 +286,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
                 // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
                 // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>'+
                 // '<div class="p-6 buff"></div></div>');
-                
+        /*
             for (let g in allGroupMap[f].gear) {
                 if (allGroupMap[f].gear[g].id > 0) {
                     buildGearForChara( allGroupMap[f].gear[g],allGroupMap[f].id, idBoss, '#group-' + idBoss + ' #gear-' + allGroupMap[f].id );
@@ -293,24 +296,25 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
             for (let t in allGroupMap[f].talents) {
                 builderCompForChara(allGroupMap[f].talents[t], allGroupMap[f].id, idBoss);
             }
-        }
-        */
+
+        }        */
+
 
     }).catch(function (error) {
         // if there's an error, log it
         console.log(error);
     });
-      
+
 }
 
      /*
-        for (let [k, v] of Object.entries(buffsTab)) {   
+        for (let [k, v] of Object.entries(buffsTab)) {
             fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&abilityid="+v.code+"&api_key=b578a559d4215fb444928808da6976ec")
             .then((response) => response.json())
             .then(function(buffsTable){
                 for (let [key, value] of Object.entries(buffsTable['auras'])) {
                     allGroupMap[value.id]['uptime' + k] = value.totalUptime;
-                }    
+                }
             }).catch(function (error) { });
         }*/
 
