@@ -18,10 +18,11 @@ $(".role-item").click(function(){
 
 function showBossTeam(idFight,idBoss, name) {
     $('.title-container').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">' + name + '</span>');
+    
     $('#fights-content').addClass('!hidden');
-    $('#group-content').removeClass('hidden');
+    $('#group-content').removeClass('!hidden');
     $('.group-container').addClass('hidden');
-    $('#group-' + id).removeClass('hidden');
+    $('#group-' + idFight + '-' + idBoss).removeClass('hidden');
 
    // $('#user-content').addClass('hidden');
 }
@@ -30,10 +31,10 @@ function showUserTeam(id, name) {
     $('#input-content').addClass('hidden');
     $('.title-container').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">Users</span>');
     $('#fights-content').addClass('!hidden');
-    $('#group-content').addClass('hidden');
+    $('#group-content').addClass('!hidden');
     //$('#user-content').removeClass('hidden');
     //$('.user-container').addClass('hidden');
-    $('#user-' + id).removeClass('hidden');
+    $('#user-' + id).removeClass('!hidden');
 }
 
 
@@ -71,12 +72,12 @@ function buildGearForChara(data, idPerso, boss, target) {
     }
 }
 
-function builderCompForChara(data, id, boss) {
+function builderCompForChara(data, id, boss,target) {
     let nameComp = data.name;
     let iconComp = data.abilityIcon;
     let pathIcon = "https://assets.rpglogs.com/img/eso/abilities/";
     if (data.name !== 'undefined') {
-        $('#group-' + boss + ' #spell-' + id).append("<img style='width: 40px' src='" + pathIcon + iconComp + ".png'>")
+        $(target).append("<img style='width: 40px' src='" + pathIcon + iconComp + ".png'>")
     }
 }
 
@@ -87,8 +88,8 @@ function builderCompForChara(data, id, boss) {
 
 function showBossContainer() {
     $('.title-container').html('');
-    $('.bloc-main').addClass('hidden');
-    $('.bloc-main#fights-content').removeClass('!hidden');
+    $('.bloc-main').addClass('!hidden');
+    $('#fights-content').removeClass('!hidden');
 }
 
 // function showGroupContainer(){
@@ -109,11 +110,11 @@ function buildContainerNav4Boss(id, name){
     '</div>';
 }
 
-function buildFightNav4Boss(idFight, idBoss, killed, name){
+function buildFightNav4Boss(idFight, idBoss, killed, nameBoss){
     if(killed > 0){
-        return '<div id="fight-'+idFight+'" onclick="showBossTeam('+idFight + ',\'' + idBoss + ',\'' + name + '\')" class="bg-green-600 hover:bg-green-500 flex items-center gap-2  cursor-pointer h-10 text-white text-sm font-extrabold px-4">Killed</div>';
+        return '<div id="fight-'+idFight+'" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')" class="bg-green-600 hover:bg-green-500 flex items-center gap-2  cursor-pointer h-10 text-white text-sm font-extrabold px-4">Killed</div>';
     }else{
-        return '<div id="fight-'+idFight+'" onclick="showBossTeam(' + idFight + ',\'' +idBoss+ ',\'' + name + '\')" class="hover:bg-gray-700 flex items-center gap-2  cursor-pointer h-10 text-white text-sm font-extrabold px-4">Wipe</div>';
+        return '<div id="fight-'+idFight+'" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')" class="hover:bg-gray-700 flex items-center gap-2  cursor-pointer h-10 text-white text-sm font-extrabold px-4">Wipe</div>';
     }
 }
 
@@ -147,12 +148,15 @@ function reportTarget(idReport) {
                         $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
                     }
                     $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
+                    //  '<div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showUserTeam(' + idBoss + ',\'' + nameBoss + '\')">Show User</div>'+
                     if(killedBossInfo !== false){
                         $('#fights-content').append('<div class="boss-item h-full w-full text-white text-4xl font-extrabold flex items-center justify-center flex-col gap-5 cursor-pointer text-center" ><img class="h-24 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<br>'+durationBoss+
-                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
-                        '<div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showUserTeam(' + idBoss + ',\'' + nameBoss + '\')">Show User</div></div></div>');
+                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                      
+                        '</div>'+
+                        '</div>');
                     }
-                    $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
+                    $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
 
                     preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss);
 
@@ -203,7 +207,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
         let buffs = data[4];
         let deaths = data[5];
 
-        console.log(idFight,idBoss, nameBoss);
+        //console.log(idFight,idBoss, nameBoss);
         let allGroup = summary.composition;
         //console.log(allGroup);
         let allDamageDone = summary.damageDone;
@@ -212,7 +216,6 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
         let fullDamage = 0;
         for (let group of allGroup) {
             allGroupMap[group.id] = group;
-
         }
         for (let [key, value] of Object.entries(allGroup)) {
             allGroupMap[value.id]['role'] = value.specs[0].role;
@@ -235,69 +238,73 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
                 allGroupMap[data[indexP].id]['buffs'] = [];
             }
         }
-        for (let [key, data] of Object.entries(allGroupMap)){
-            console.log(key, data);
-        }
-
-/*
-        for (let [key, data] of  Object.keys(allGroupMap)) {
-            console.log(key, allGroupMap);
+        for (const p in allGroupMap) {
             let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
-            //let dmgPerDD = allGroupMap[f].dmgOutput;
-            //let percentDmg = (allGroupMap[f].dmg * 100) / fullDamage;
-            //let classChara = allGroupMap[f].icon;
-            //let name = allGroupMap[f].name;
-            //let displayName = allGroupMap[f].displayName;
-            //let idChara = allGroupMap[f].id;
-            //let gear = allGroupMap[f].gear;
-            //let talents = allGroupMap[f].talents;
-            //let cpm = allGroupMap[f].cpm;
-            //console.log(allGroupMap[f].id);
-            //console.log(allGroupMap[f].displayName);
+            let id = allGroupMap[p].id;
+            let dmgOutput = allGroupMap[p].dmgOutput;
+            let role = allGroupMap[p].role;
+            let percentDmg = (allGroupMap[p].dmg * 100) / fullDamage;
+            let icon = allGroupMap[p].icon;
+            let name = allGroupMap[p].name;
+            let displayName = allGroupMap[p].displayName;
+            let idChara = allGroupMap[p].id;
+            let gear = allGroupMap[p].gear;
+            let talents = allGroupMap[p].talents;
+            let cpm = allGroupMap[p].cpm;
             /*
-            $('#group-'+idFight+'-'+idBoss).append('<div id="' + allGroupMap[f].displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + allGroupMap[f].role + '">' +
-                '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between w-full">' +
-                '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + allGroupMap[f].icon + ' mr-2" src="' + pathIconDD + '"><span>' + name + ' - ' + allGroupMap[f].displayName + ' - ' + allGroupMap[f].icon + '</span></div><span>' + parseFloat(allGroupMap[f].dmgOutput).toPrecision(3) + allGroupMap[f].dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + ((allGroupMap[f].dmg * 100) / fullDamage).toFixed(2) + '%</span></div>' +
-                '</div>' +
-                '<div id="gear-' + allGroupMap[f].id + '" class="gear-container mt-6 !hidden"></div>' +
-                '<div id="spell-' + allGroupMap[f].id + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
-                '</div>' +
-                '</div>');
+                '<div id="gear-' + id + '" class="gear-container mt-6 !hidden"></div>' +
+                '<div id="spell-' + id + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
             */
-                // $('#user-'+ idBoss).append('<div class=" flex items-center justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative cursor-pointer hover:bg-gray-800">'+
-                // '<div class="font-extrabold flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + '</div><span class="absolute top-4 left-4 text-gray-700 text-xs">' + displayName + '</span><span class="absolute bottom-4 right-4 text-xs text-gray-400">' + classChara + '</span>'+
-                // '</div>');
-                // $('#user-content').append('<div id="chara-'+idChara+'-'+idBoss+'" class="p-6 overflow-auto h-full gap-4 flex flex-col">'+
-                // '<div><div class="text-4xl text-white font-extrabold flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-4" src="' + pathIconDD + '">' + name + '</div>'+cpm+'</div>'+
-                // '<div class="grid grid-flow-col auto-cols-max gap-4 container-user-'+idChara+'-'+idBoss+'"></div>'+
-                // '</div>');
-                // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
-                // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Stuffs</div>'+
-                // '<div class="p-6 stuff"></div></div>');
-                // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
-                // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Damage Done</div>'+
-                // '<div class="p-6 dmg"></div></div>');
-                // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
-                // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Spell</div>'+
-                // '<div class="p-6 spell"></div></div>');
-                // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
-                // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Set Uptime</div>'+
-                // '<div class="p-6 set"></div></div>');
-                // $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
-                // '<div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>'+
-                // '<div class="p-6 buff"></div></div>');
-        /*
-            for (let g in allGroupMap[f].gear) {
-                if (allGroupMap[f].gear[g].id > 0) {
-                    buildGearForChara( allGroupMap[f].gear[g],allGroupMap[f].id, idBoss, '#group-' + idBoss + ' #gear-' + allGroupMap[f].id );
-                    buildGearForChara( allGroupMap[f].gear[g],allGroupMap[f].id, idBoss, '.container-user-'+allGroupMap[f].id+'-'+idBoss+' .stuff' );
+            $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + role + '">' +
+                '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
+                    '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
+                        '<img class="composition-icon sprite actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
+                        '<span>' + name + ' - ' + displayName + ' - ' + icon + '</span>'+
+                    '</div>'+
+                    '<span>' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
+                '</div>' +
+                '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-6 w-full !hidden"></div>' +
+                '<div id="spell-' + id + '-' +idFight+'-'+idBoss+'" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
+            '</div>');
+    
+
+                /*
+                    $('#user-'+ idBoss).append('<div class=" flex items-center justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative cursor-pointer hover:bg-gray-800">'+
+                    '<div class="font-extrabold flex items-center justify-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-2" src="' + pathIconDD + '">' + name + '</div><span class="absolute top-4 left-4 text-gray-700 text-xs">' + displayName + '</span><span class="absolute bottom-4 right-4 text-xs text-gray-400">' + classChara + '</span>'+
+                    '</div>');
+                    $('#user-content').append('<div id="chara-'+idChara+'-'+idBoss+'" class="p-6 overflow-auto h-full gap-4 flex flex-col">'+
+                    '<div><div class="text-4xl text-white font-extrabold flex items-center"><img class="composition-icon sprite actor-sprite-' + classChara + ' mr-4" src="' + pathIconDD + '">' + name + '</div>'+cpm+'</div>'+
+                    '<div class="grid grid-flow-col auto-cols-max gap-4 container-user-'+idChara+'-'+idBoss+'"></div>'+
+                    '</div>');
+                    $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                    '<div class="text-white font-bold text-xl p-6 bg-gray-800">Stuffs</div>'+
+                    '<div class="p-6 stuff"></div></div>');
+                    $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                    '<div class="text-white font-bold text-xl p-6 bg-gray-800">Damage Done</div>'+
+                    '<div class="p-6 dmg"></div></div>');
+                    $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                    '<div class="text-white font-bold text-xl p-6 bg-gray-800">Spell</div>'+
+                    '<div class="p-6 spell"></div></div>');
+                    $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                    '<div class="text-white font-bold text-xl p-6 bg-gray-800">Set Uptime</div>'+
+                    '<div class="p-6 set"></div></div>');
+                    $('.container-user-'+idChara+'-'+idBoss).append('<div class="flex flex-col rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800 text-white relative">'+
+                    '<div class="text-white font-bold text-xl p-6 bg-gray-800">Buffs</div>'+
+                    '<div class="p-6 buff"></div></div>');
+                */
+
+            for (let g in allGroupMap[p].gear) {
+                if (allGroupMap[p].gear[g].id > 0) {
+                    //console.log(allGroupMap[p].gear[g]);
+
+                    buildGearForChara( allGroupMap[p].gear[g], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
+                    //buildGearForChara( allGroupMap[p].gear[g],allGroupMap[p].id, idBoss, '.container-user-'+allGroupMap[f].id+'-'+idBoss+' .stuff' );
                 }
             }
-            for (let t in allGroupMap[f].talents) {
-                builderCompForChara(allGroupMap[f].talents[t], allGroupMap[f].id, idBoss);
+            for (let t in allGroupMap[p].talents) {
+                builderCompForChara(allGroupMap[p].talents[t], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #spell-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
             }
-
-        }        */
+        }       
 
 
     }).catch(function (error) {
