@@ -12,12 +12,13 @@
 <body class="bg-gray-900 h-screen overflow-hidden flex items-start justify-center">
     <!-- SideNav -->
 
-    <div class="w-16 h-full bg-white flex items-center justify-start flex-col sticky top-0 left-0 z-50">
+    <div class="sideNav w-16 h-full bg-white flex items-center justify-start flex-col sticky top-0 left-0 z-50">
         
-        <div class="w-16 h-16 flex items-center justify-center border-b-2 border-gray-100 ">
+        <div class="w-16 h-16 flex items-center justify-center border-b-2 border-gray-100 relative group">
             <img class="h-10 w-10 rounded-lg" src="./img/icon/me.jpeg" alt="">
+            <a href="https://discord.com/users/244843199674318849" target="_blank" class="absolute h-8 left-full bg-gray-800 text-white rounded flex items-center justify-center px-2 text-xs hidden group-hover:flex">@Crylerz</a>
         </div>
-        <div>
+        <div class="container-big-nav">
             <!-- Nav pour les combats avec wipes & other -->
             <div class="group relative">
                 <div class="w-16 h-16 flex items-center justify-center cursor-pointer group-hover:bg-gray-100">
@@ -27,61 +28,64 @@
                         <rect width="352" height="32" x="80" y="384"></rect>
                     </svg>
                 </div>
-                <div class="container-main-nav absolute left-full top-0 hidden group-hover:block border-r-2 border-gray-700 w-max bg-gray-900 h-[calc(100vh-4rem)] overflow-auto">
-
-                </div>
+                <div class="container-main-nav absolute left-full top-0 hidden group-hover:block border-r-2 border-gray-700 w-max bg-gray-900 h-[calc(100vh-4rem)] overflow-auto"></div>
             </div>
             <!-- Nav pour les combats passés seulement -->
             <ul class="boss-container-nav isKilled"></ul>
 
         </div>
-        <div class="w-16 h-16 flex items-center justify-center border-t-2 border-gray-100 absolute bottom-0 left-0 text-[10px] hover:bg-gray-100 cursor-pointer">
-            Reload
+        <div class="w-16 h-16 flex items-center justify-center bg-gray-200 hpver:bg-gray-300 absolute bottom-0 left-0 text-[10px] cursor-pointer group" onclick="location.reload();">
+            <svg class="h-5 duration-200 group-hover:rotate-180" width="90" height="71" viewBox="0 0 90 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M88.2608 24.8119L72.8145 16L63.9738 31.396C62.9573 33.1178 63.5676 35.2451 65.295 36.2577C65.8033 36.5615 66.4129 36.7643 67.0225 36.7643C68.2417 36.7643 69.4615 36.1566 70.0712 34.9414L73.12 29.5731C75.1522 39.702 71.596 50.4385 63.3642 57.2249C53.5071 65.429 39.1788 66.2395 28.6104 58.9467C26.9843 57.8325 24.7486 58.2373 23.6308 59.8581C22.513 61.4789 22.9192 63.7072 24.5452 64.8214C30.6428 68.9744 37.6538 71 44.7675 71C52.9985 71 61.3316 68.1639 67.9367 62.5931C78.0987 54.085 82.5701 40.8161 80.1309 28.2563L84.6023 30.7885C86.3297 31.8017 88.464 31.1934 89.4798 29.4716C90.4963 27.9518 89.9881 25.8252 88.2606 24.8119L88.2608 24.8119Z" fill="black"/>
+                <path d="M24.1409 34.4544C22.4234 33.6486 20.3015 34.354 19.3924 36.066L17.0688 40.5981C15.3513 30.7281 18.887 20.3542 26.869 13.707C36.6691 5.54923 50.9147 4.74333 61.422 11.9949C63.0387 13.1028 65.2615 12.7003 66.3728 11.0887C67.4842 9.47705 67.0804 7.26129 65.4637 6.15342C52.3293 -2.81027 34.5478 -1.90401 22.3228 8.36916C12.0174 16.9303 7.57175 30.6273 10.4007 43.4182L5.14679 40.7998C3.42932 39.8935 1.30737 40.5981 0.398262 42.3102C-0.510867 44.0223 0.195999 46.1376 1.91346 47.0438L17.6743 55L25.6555 39.2886C26.5654 37.476 25.8584 35.3607 24.1409 34.4544Z" fill="black"/>
+            </svg>
         </div>
     </div>
     <!-- Main Container -->
     <div class="main-container h-screen w-full">
         <div class="title-container h-16 bg-white w-full border-b-2 border-gray-100 sticky top-0 flex items-center px-4">
-            <span class="uppercase font-extrabold"></span>
+           
+            <div class="title-item uppercase font-extrabold flex items-center"></div>
+            <div class="rightLink w-16 h-16 flex items-center justify-center cursor-pointer hover:bg-gray-100 absolute right-0 top-0"></div>
         </div>
         <div class="h-[calc(100vh-4rem)]">
             <div id="input-content" class="w-full h-screen flex items-center justify-center">
-                <div class="px-10 max-w-4xl w-full space-y-4">
-                    <div class="flex items-center justify-between">
+                <div class="px-10 max-w-4xl w-full space-y-4 text-center">
+                    <div class="flex items-center justify-center">
                         <label for="id_report" class="font-extrabold uppercase text-white">Past Your log Here</label>
-                        <p class="text-white">zpjbZmvtc7M4JxXN</p>
                     </div>
                     <input oninput="return reportTarget(this.value);" name="id_report" id="id_report"
                         class="border-none bg-black px-4 py-8 w-full text-white text-xl mt-2" type="text"
                         placeholder="Here !" />
+                    <p class="text-gray-500">https://www.esologs.com/reports/zpjbZmvtc7M4JxXN</p>
                 </div>
             </div>
-            <div id="fights-content" class="bloc-main h-full flex !hidden"></div>
+            <div id="fights-content" class="bloc-main h-full flex flex-col overflow-auto !hidden"></div>
 
             <div id="group-content" class="bloc-main h-full !hidden">
                 <div class="flex items-center justify-between bg-black h-16 px-5">
                     <div class="role-container flex items-center justify-center gap-4">
                         <div id="dps"
-                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
-                            <img class="h-6" src="img/icon/dps.webp" alt="" />
+                            class="role-item h-10 w-10 border-2 flex items-center hover:bg-gray-800 justify-center rounded-lg cursor-pointer">
+                            <img class="h-5" src="img/icon/dps.webp" alt="" />
                         </div>
                         <div id="healer"
-                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
-                            <img class="h-6" src="img/icon/heal.webp" alt="" />
+                            class="role-item h-10 w-10 border-2 flex items-center hover:bg-gray-800 justify-center rounded-lg cursor-pointer">
+                            <img class="h-5" src="img/icon/heal.webp" alt="" />
                         </div>
                         <div id="tank"
-                            class="role-item h-10 w-10 border-2 flex items-center justify-center rounded-lg cursor-pointer">
-                            <img class="h-6" src="img/icon/tank.webp" alt="" />
+                            class="role-item h-10 w-10 border-2 flex items-center hover:bg-gray-800 justify-center rounded-lg cursor-pointer">
+                            <img class="h-5" src="img/icon/tank.webp" alt="" />
                         </div>
                     </div>
                     <div class="filter-container flex items-center justify-center gap-4">
                         <div id="gear"
-                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
-                            Gear
+                            class="h-10 px-4 border-2 flex items-center justify-center hover:bg-gray-800 hover:text-white rounded-lg cursor-pointer text-white text-sm font-bold">
+                            Équipements
                         </div>
                         <div id="spell"
-                            class="h-10 px-4 border-2 flex items-center justify-center rounded-lg cursor-pointer text-white">
-                            Spell
+                            class="h-10 px-4 border-2 flex items-center justify-center hover:bg-gray-800 hover:text-white rounded-lg cursor-pointer text-white text-sm font-bold">
+                            Sorts
                         </div>
                     </div>
                 </div>

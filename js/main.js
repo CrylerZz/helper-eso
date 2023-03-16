@@ -1,7 +1,6 @@
 //https://assets.rpglogs.com/img/eso/maps/craglorn/helracitadel_base.jpg
 
 
-
 $(".role-item").click(function(){
     if($(this).hasClass('is-active')){
         $('.role-item').removeClass('is-active bg-white')
@@ -17,7 +16,7 @@ $(".role-item").click(function(){
 })
 
 function showBossTeam(idFight,idBoss, name) {
-    $('.title-container').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">' + name + '</span>');
+    $('.title-container .title-item').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">' + name + '</span>');
     
     $('#fights-content').addClass('!hidden');
     $('#group-content').removeClass('!hidden');
@@ -29,7 +28,7 @@ function showBossTeam(idFight,idBoss, name) {
 
 function showUserTeam(id, name) {
     $('#input-content').addClass('hidden');
-    $('.title-container').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">Users</span>');
+    $('.title-container .title-item').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">Users</span>');
     $('#fights-content').addClass('!hidden');
     $('#group-content').addClass('!hidden');
     //$('#user-content').removeClass('hidden');
@@ -54,18 +53,19 @@ $('#spell').click(function(){
 //     $("#" + id).append('<div id="container-' + id + '" class="overflow-auto h-full flex items-center justify-center"></div>');
 // }
 
-function buildGearForChara(data, idPerso, boss, target) {
+function buildGearForChara(data, target, lang) {
     let nameGear = data.name;
+    let setName = data.setName.toLowerCase().replace(/ /g,"-").replace(/'/g,"");
     let champLvlGear = data.championPoints;
     let qualityGear = qualityEquipment[data.quality];
     let traitGear = traitType[data.trait];
     let enchantGear = enchantType[data.enchantType];
     let enchantQuality = qualityEnchant[data.enchantQuality];
     if (data.id > 0) {
-        $(target).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>" + nameGear +
-            (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
+        $(target).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>"+
+            "<a href='https://eso-sets.com/"+(lang == "fr" ? "fr/" : "")+"set/"+setName+"' class='hover:text-gray-200' target='_blank'>" + nameGear +"</a>" + (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
             "<div>" +
-            "<span class='inline-block rounded text-gray-600 px-2 py-1 text-xs font-bold mr-3' style='background:" + enchantQuality + "'>" + enchantGear + "</span>" +
+            "<span class='inline-block rounded px-2 py-1 text-xs font-bold mr-3 text-white' style='background:" + enchantQuality + "'>" + enchantGear + "</span>" +
             "<span class='inline-block rounded text-gray-600 bg-gray-100 px-2 py-1 text-xs font-bold'>" + traitGear + "</span>" +
             "</div>" +
             "</div>");
@@ -77,7 +77,10 @@ function builderCompForChara(data, id, boss,target) {
     let iconComp = data.abilityIcon;
     let pathIcon = "https://assets.rpglogs.com/img/eso/abilities/";
     if (data.name !== 'undefined') {
-        $(target).append("<img style='width: 40px' src='" + pathIcon + iconComp + ".png'>")
+        $(target).append("<div class='relative group flex items-center justify-center'>"+
+            "<img class='h-12 rounded border-2 border-gray-600' src='" + pathIcon + iconComp + ".png'>"+
+            "<div class='hidden absolute bottom-14 bg-gray-900 border-2 border-gray-600 text-xs p-2 w-max rounded group-hover:flex'>"+nameComp+"</div>"+
+        "</div>")
     }
 }
 
@@ -87,7 +90,7 @@ function builderCompForChara(data, id, boss,target) {
 // }
 
 function showBossContainer() {
-    $('.title-container').html('');
+    $('.title-container .title-item').html('');
     $('.bloc-main').addClass('!hidden');
     $('#fights-content').removeClass('!hidden');
 }
@@ -122,56 +125,59 @@ let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
 function reportTarget(idReport) {
+    var url = idReport;
+    $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
+    var pathname = url.split('https://www.esologs.com/reports/');
+    idReport = pathname[1];
+    //https://www.esologs.com/reports/zpjbZmvtc7M4JxXN
     fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key=b578a559d4215fb444928808da6976ec")
         .then((response) => response.json())
         .then((data) => {
+            let lang = data.lang;
             let nameTrial = data.title;
             let startTrial = data.start;
             let endTrial = data.end;
             let reportSign = idReport;
             let durationTrial = timestampWithoutMillisecond(endTrial) - timestampWithoutMillisecond(startTrial);
-            $('.title-container span').html(nameTrial + ' - ' + timeConverter(timestampWithoutMillisecond(startTrial)) + ' - ' + timeDuration(durationTrial));
+            $('.title-container .title-item').html(nameTrial + ' - ' + timeConverter(timestampWithoutMillisecond(startTrial)) + ' - ' + timeDuration(durationTrial));
             $("#input-content").remove();
             $('#fights-content').removeClass('!hidden');
             for (let fight of data.fights) {
-                if(fight.boss > 0){
-                    let idFight = fight.id
-                    let idBoss = fight.boss;
-                    let nameBoss = fight.name;
-                    let killedBossInfo = fight.kill;
-                    let startBoss = fight.start_time;
-                    let endBoss = fight.end_time;
-                    //console.log(killedBossInfo);
-                    let durationBoss = timeDuration(timestampWithoutMillisecond(endBoss) - timestampWithoutMillisecond(startBoss));
-                    //console.log($('.boss-'+idBoss).length);
-                    if($('.boss-'+idBoss).length == 0){
-                        $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
-                    }
-                    $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
-                    //  '<div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showUserTeam(' + idBoss + ',\'' + nameBoss + '\')">Show User</div>'+
-                    if(killedBossInfo !== false){
-                        $('#fights-content').append('<div class="boss-item h-full w-full text-white text-4xl font-extrabold flex items-center justify-center flex-col gap-5 cursor-pointer text-center" ><img class="h-24 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<br>'+durationBoss+
-                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
-                      
-                        '</div>'+
-                        '</div>');
-                    }
-                    $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
-
-                    preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss);
-
-                    //  onclick="showBossTeam(' + idBoss + ',\'' + nameBoss + '\')"
-
-//                    $('.boss-container-nav').append('<li class="w-16 h-16 flex items-center justify-center cursor-pointer relative hover:bg-gray-100 group" onclick="showBossTeam(' + idBoss + ',\'' + nameBoss + '\')" ><img class="h-10 w-10 rounded-lg overflow-hidden" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/><span class="absolute left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white w-max opacity-0 group-hover:opacity-100 hidden group-hover:block">'+nameBoss+'</span></li>');
-
-
-
-
-
-                    // $('#group-content').append('<div id="group-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
-                    //$('#user-content').append('<div id="user-' + idBoss + '" class="user-container hidden grid grid-cols-3 gap-4 p-6 overflow-auto h-full"></div>');
-                    //preciseFight(reportSign, idBoss, startBoss, endBoss, nameBoss);
+                let idFight = fight.id
+                let idBoss = fight.boss;
+                let nameBoss = fight.name;
+                let killedBossInfo = fight.kill;
+                let startBoss = fight.start_time;
+                let endBoss = fight.end_time;
+                let durationBoss = timeDuration(timestampWithoutMillisecond(endBoss) - timestampWithoutMillisecond(startBoss));
+                if($('.boss-'+idBoss).length == 0){
+                    $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
                 }
+                $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
+
+                if(killedBossInfo !== false && idBoss > 0){
+                    $('#fights-content').append('<div class="boss-item bg-green-100 h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
+                        '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<br>'+durationBoss+
+                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    '</div>'+
+                    '</div>');
+                }
+                if(killedBossInfo == false && idBoss > 0){
+                    $('#fights-content').append('<div class="boss-item h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
+                    '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<span class="text-red-400">Not Killed</span><br>'+durationBoss+
+                    '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    '</div>'+
+                    '</div>');
+                }
+                if(idBoss <= 0){
+                    $('#fights-content').append('<div class="boss-item h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
+                    '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<span class="text-yellow-400">TRASH</span><br>'+durationBoss+
+                    '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    '</div>'+
+                    '</div>');
+                }
+                $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
+                preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss,lang);
             }
         })
         .catch((error) => {
@@ -181,7 +187,7 @@ function reportTarget(idReport) {
 
 let allGroupMap = {};
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
-function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
+function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang) {
     $('#input-content').remove();
     $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
     Promise.all([
@@ -258,10 +264,10 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
             $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + role + '">' +
                 '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
                     '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
-                        '<img class="composition-icon sprite actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
-                        '<span>' + name + ' - ' + displayName + ' - ' + icon + '</span>'+
+                        '<img class="composition-icon sprite rounded actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
+                        '<span class="text-white">' + name + ' - ' + displayName + ' - ' + icon + '</span>'+
                     '</div>'+
-                    '<span>' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
+                    '<span class="text-white">' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
                 '</div>' +
                 '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-6 w-full !hidden"></div>' +
                 '<div id="spell-' + id + '-' +idFight+'-'+idBoss+'" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
@@ -295,9 +301,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss) {
 
             for (let g in allGroupMap[p].gear) {
                 if (allGroupMap[p].gear[g].id > 0) {
-                    //console.log(allGroupMap[p].gear[g]);
-
-                    buildGearForChara( allGroupMap[p].gear[g], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
+                    buildGearForChara( allGroupMap[p].gear[g],'#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss, lang );
                     //buildGearForChara( allGroupMap[p].gear[g],allGroupMap[p].id, idBoss, '.container-user-'+allGroupMap[f].id+'-'+idBoss+' .stuff' );
                 }
             }
