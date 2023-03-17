@@ -17,7 +17,6 @@ $(".role-item").click(function(){
 
 function showBossTeam(idFight,idBoss, name) {
     $('.title-container .title-item').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">' + name + '</span>');
-    
     $('#fights-content').addClass('!hidden');
     $('#group-content').removeClass('!hidden');
     $('.group-container').addClass('hidden');
@@ -35,9 +34,6 @@ function showUserTeam(id, name) {
     //$('.user-container').addClass('hidden');
     $('#user-' + id).removeClass('!hidden');
 }
-
-
-
 
 $('#gear').click(function(){
     $('.gear-container').toggleClass('!hidden');
@@ -125,12 +121,15 @@ let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
 function reportTarget(idReport) {
+    //Crylerz Main Acount = b578a559d4215fb444928808da6976ec
+    //Crylers2 = 4228c88810d61ec90cb3dae815cb4a97
+    var ApiKey = 'b578a559d4215fb444928808da6976ec'; 
     var url = idReport;
     $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     var pathname = url.split('https://www.esologs.com/reports/');
     idReport = pathname[1];
     //https://www.esologs.com/reports/zpjbZmvtc7M4JxXN
-    fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key=b578a559d4215fb444928808da6976ec")
+    fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key="+ApiKey+"")
         .then((response) => response.json())
         .then((data) => {
             let lang = data.lang;
@@ -143,41 +142,54 @@ function reportTarget(idReport) {
             $("#input-content").remove();
             $('#fights-content').removeClass('!hidden');
             for (let fight of data.fights) {
-                let idFight = fight.id
+                let idFight = fight.id;
                 let idBoss = fight.boss;
                 let nameBoss = fight.name;
                 let killedBossInfo = fight.kill;
                 let startBoss = fight.start_time;
                 let endBoss = fight.end_time;
                 let durationBoss = timeDuration(timestampWithoutMillisecond(endBoss) - timestampWithoutMillisecond(startBoss));
+
+                $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
+
                 if($('.boss-'+idBoss).length == 0){
                     $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
                 }
-                $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
+
+                if($('#boss-container-'+idBoss).length == 0){
+                    $('#fights-content').append('<div id="boss-container-'+idBoss+'" class=" font-extrabold text-white flex flex-col '+ (idBoss == 0 ? "order-[1000]" : "order-1" )+' ">'+
+                    '<div class="bg-gray-800 p-4 flex items-center p-4 gap-4"><img class="h-12 w-12 rounded-lg border-2 border-gray-700 text-xl" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>'+ (idBoss == 0 ? "Trashs" : nameBoss )+'</div>'+
+                    '<div class="p-4 container-item-boss grid lg:grid-cols-2 xl:grid-cols-3 gap-4"></div>'+
+                    '</div>');
+                }
 
                 if(killedBossInfo !== false && idBoss > 0){
-                    $('#fights-content').append('<div class="boss-item bg-green-100 h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
-                        '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<br>'+durationBoss+
-                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item lg:col-span-2 xl:col-span-3 p-4 bg-green-500 border-2 border-green-500 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-1" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">'+
+                        '<div class="flex items-center justify-center gap-4 text-white">Kill - '+durationBoss+'</div>'+
+                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold">'+
+                        '<div class="border-2 border-green-500 text-green-500 bg-gray-800 rounded-lg text-sm px-4 h-9 flex items-center justify-center hover:bg-white hover:text-black" >Show</div>'+
                     '</div>'+
                     '</div>');
                 }
                 if(killedBossInfo == false && idBoss > 0){
-                    $('#fights-content').append('<div class="boss-item h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
-                    '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<span class="text-red-400">Not Killed</span><br>'+durationBoss+
-                    '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-red-400 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-2"  onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">'+
+                        '<div class="flex items-center justify-center gap-4 text-red-400">Wipe - '+durationBoss+'</div>'+
+                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold">'+
+                        '<div class="border-2 border-white rounded-lg text-sm px-4 h-9 flex items-center justify-center hover:bg-white hover:text-black">Show</div>'+
                     '</div>'+
                     '</div>');
                 }
+                
                 if(idBoss <= 0){
-                    $('#fights-content').append('<div class="boss-item h-16 w-full text-white text-lg font-extrabold flex items-center justify-between  gap-5 cursor-pointer text-center" >'+
-                    '<img class="h-14 rounded-lg" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>' + nameBoss + '<span class="text-yellow-400">TRASH</span><br>'+durationBoss+
-                    '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show Group</div>'+
+                    $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-gray-200 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center" >'+
+                        '<div class="flex items-center justify-center gap-4 text-gray-400">'+nameBoss+' - '+durationBoss+'</div>'+
+                        '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show</div>'+
                     '</div>'+
                     '</div>');
                 }
+                
                 $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
-                preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss,lang);
+                preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss,lang, ApiKey);
             }
         })
         .catch((error) => {
@@ -187,16 +199,16 @@ function reportTarget(idReport) {
 
 let allGroupMap = {};
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
-function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang) {
+function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey) {
     $('#input-content').remove();
     $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
     Promise.all([
-        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
-        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
-        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
-        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
-        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec"),
-        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&api_key=b578a559d4215fb444928808da6976ec")
+        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+"")
     ]).then(function (responses) {
         // Get a JSON object from each of the responses
         return Promise.all(responses.map(function (response) {
