@@ -121,9 +121,7 @@ let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
 function reportTarget(idReport) {
-    //Crylerz Main Acount = b578a559d4215fb444928808da6976ec
-    //Crylers2 = 4228c88810d61ec90cb3dae815cb4a97
-    var ApiKey = 'b578a559d4215fb444928808da6976ec'; 
+    var ApiKey = 'faked'; 
     var url = idReport;
     $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     var pathname = url.split('https://www.esologs.com/reports/');
