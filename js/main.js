@@ -59,7 +59,7 @@ function buildGearForChara(data, target, lang) {
     let enchantQuality = qualityEnchant[data.enchantQuality];
     if (data.id > 0) {
         $(target).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>"+
-            "<a href='https://eso-sets.com/"+(lang == "fr" ? "fr/" : "")+"set/"+setName+"' class='hover:text-gray-200' target='_blank'>" + nameGear +"</a>" + (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
+            "<a href='https://eso-sets.com/set/"+setName+"' class='hover:text-gray-200' target='_blank'>" + nameGear +"</a>" + (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
             "<div>" +
             "<span class='inline-block rounded px-2 py-1 text-xs font-bold mr-3 text-white' style='background:" + enchantQuality + "'>" + enchantGear + "</span>" +
             "<span class='inline-block rounded text-gray-600 bg-gray-100 px-2 py-1 text-xs font-bold'>" + traitGear + "</span>" +
@@ -129,7 +129,7 @@ function reportTarget(idReport) {
     var pathname = url.split('https://www.esologs.com/reports/');
     idReport = pathname[1];
     //https://www.esologs.com/reports/zpjbZmvtc7M4JxXN
-    fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key="+ApiKey+"")
+    fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?translate=true&api_key="+ApiKey+"")
         .then((response) => response.json())
         .then((data) => {
             let lang = data.lang;
@@ -203,12 +203,12 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
     $('#input-content').remove();
     $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
     Promise.all([
-        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+"")
+        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+"")
     ]).then(function (responses) {
         // Get a JSON object from each of the responses
         return Promise.all(responses.map(function (response) {
