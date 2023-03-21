@@ -121,7 +121,7 @@ let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
 function reportTarget(idReport) {
-    var ApiKey = secrets.SECRET_API; 
+    var ApiKey = "b578a559d4215fb444928808da6976ec";
     var url = idReport;
     $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     var pathname = url.split('https://www.esologs.com/reports/');
