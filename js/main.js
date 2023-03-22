@@ -16,7 +16,7 @@ $(".role-item").click(function(){
 })
 
 function showBossTeam(idFight,idBoss, name) {
-    $('.title-container .title-item').html('<div onclick="showBossContainer()" class="block h-10 w-10 rounded-lg bg-gray-200 text-black text-xs flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold">' + name + '</span>');
+    $('.title-container .title-item').html('<div onclick="showBossContainer()" class="block h-8 sm:h-10 w-8 sm:w-10 rounded-lg bg-gray-200 text-black  flex items-center justify-center mr-4 cursor-pointer  hover:bg-gray-300"><</div><span class="uppercase font-extrabold text-[14px] sm:text-sm">' + name + '</span>');
     $('#fights-content').addClass('!hidden');
     $('#group-content').removeClass('!hidden');
     $('.group-container').addClass('hidden');
@@ -58,8 +58,8 @@ function buildGearForChara(data, target, lang) {
     let enchantGear = enchantType[data.enchantType];
     let enchantQuality = qualityEnchant[data.enchantQuality];
     if (data.id > 0) {
-        $(target).append("<div class='flex justify-between w-full mb-2 text-xs' style='text-transform: capitalize;color:" + qualityGear + "'>"+
-            "<a href='https://eso-sets.com/set/"+setName+"' class='hover:text-gray-200' target='_blank'>" + nameGear +"</a>" + (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
+        $(target).append("<div class='flex items-center justify-between w-full mb-2 text-xs flex-wrap' style='text-transform: capitalize;color:" + qualityGear + "'>"+
+            "<a href='https://eso-hub.com/en/sets/"+setName+"' class='hover:text-gray-200' target='_blank'>" + nameGear +"</a>" + (champLvlGear > 160 ? ' - ' + champLvlGear : '') +
             "<div>" +
             "<span class='inline-block rounded px-2 py-1 text-xs font-bold mr-3 text-white' style='background:" + enchantQuality + "'>" + enchantGear + "</span>" +
             "<span class='inline-block rounded text-gray-600 bg-gray-100 px-2 py-1 text-xs font-bold'>" + traitGear + "</span>" +
@@ -122,6 +122,7 @@ let trashMap = {}
 let buffsArray = {};
 function reportTarget(idReport) {
     var ApiKey = "b578a559d4215fb444928808da6976ec";
+    //var ApiKey = "4228c88810d61ec90cb3dae815cb4a97";
     var url = idReport;
     $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     var pathname = url.split('https://www.esologs.com/reports/');
@@ -186,7 +187,7 @@ function reportTarget(idReport) {
                     '</div>');
                 }
                 
-                $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-4 p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
+                $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-2 sm:gap-4 p-0 sm:p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
                 preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss,lang, ApiKey);
             }
         })
@@ -271,15 +272,19 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
                 '<div id="gear-' + id + '" class="gear-container mt-6 !hidden"></div>' +
                 '<div id="spell-' + id + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
             */
-            $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-6 rounded-lg border border-4 shadow-md bg-gray-80 border-gray-800" data-role="' + role + '">' +
+            $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-2 sm:p-6 sm:rounded-lg border border-0 sm:border-4 shadow-md bg-gray-800 border-gray-800" data-role="' + role + '">' +
                 '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
                     '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
                         '<img class="composition-icon sprite rounded actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
-                        '<span class="text-white">' + name + ' - ' + displayName + ' - ' + icon + '</span>'+
+                        '<div class="flex items-center justify-center flex-row flex-wrap gap-2 text-[12px] sm:text-base">'+
+                            '<p class="text-white hidden sm:block">' + name +'</p>'+
+                            '<p class="text-white">' + displayName +'</p>'+
+                            '<p class="text-white">' + icon + '</p>'+
+                        '</div>'+
                     '</div>'+
-                    '<span class="text-white">' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
+                    '<span class="text-white text-xs sm:text-base hidden sm:block">' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
                 '</div>' +
-                '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-6 w-full !hidden"></div>' +
+                '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-2 sm:mt-6 w-full !hidden"></div>' +
                 '<div id="spell-' + id + '-' +idFight+'-'+idBoss+'" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
             '</div>');
     
