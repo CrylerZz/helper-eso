@@ -108,92 +108,115 @@ let buffsArray = {};
 let ApiKey = "b578a559d4215fb444928808da6976ec";
 
 
-
-
-async function reportTargetedSummary(idReport,idFight,idBoss, start, end, ApiKey){
-    $('#input-content').remove();
-    $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
-    return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
-    .then((response)=>response.json())
-    .then((responseJson)=>{
-            let summary = responseJson;
-
-            let allGroup = summary.composition;
-            let allDamageDone = summary.damageDone;
-            let pDetail = summary.playerDetails;
-            let fullDamage = 0;
-            for (let group of allGroup) {
-                allGroupMap[group.id] = group;
-            }
-            for (let [key, value] of Object.entries(allGroup)) {
-                for (let u in value) {
-                     allGroupMap[value.id]['role'] = value[u].role;
-                
-                }
-            }
-            for (let [key, value] of Object.entries(allDamageDone)) {
-                allGroupMap[value.id]['dmgOutput'] = MoneyFormat(value.total);
-                allGroupMap[value.id]['dmg'] = value.total;
-                fullDamage = fullDamage += value.total;
-            }
-            for (let [key, data] of Object.entries(pDetail)) {
-                for (let indexP in data) {
-                    allGroupMap[data[indexP].id]['displayName'] = data[indexP].displayName;
-                    allGroupMap[data[indexP].id]['icon'] = data[indexP].icon;
-                    allGroupMap[data[indexP].id]['championPoints'] = data[indexP].maxItemLevel;
-                    allGroupMap[data[indexP].id]['gear'] = data[indexP].combatantInfo.gear;
-                    allGroupMap[data[indexP].id]['talents'] = data[indexP].combatantInfo.talents;
-                    allGroupMap[data[indexP].id]['buffs'] = [];
-                }
-            }
-            for (const p in allGroupMap) {
-                let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
-                let id = allGroupMap[p].id;
-                let dmgOutput = allGroupMap[p].dmgOutput;
-                let role = allGroupMap[p].role;
-                let percentDmg = (allGroupMap[p].dmg * 100) / fullDamage;
-                let icon = allGroupMap[p].icon;
-                let name = allGroupMap[p].name;
-                let displayName = allGroupMap[p].displayName;
-                let idChara = allGroupMap[p].id;
-                let cpm = allGroupMap[p].cpm;
-                $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-2 sm:p-6 sm:rounded-lg border border-0 sm:border-4 shadow-md bg-gray-800 border-gray-800" data-role="' + role + '">' +
-                    '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
-                        '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
-                            '<img class="composition-icon sprite rounded actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
-                            '<div class="flex items-center justify-center flex-row flex-wrap gap-2 text-[12px] sm:text-base">'+
-                                '<p class="text-white hidden sm:block">' + name +'</p>'+
-                                '<p class="text-white">' + displayName +'</p>'+
-                                '<p class="text-white">' + icon + '</p>'+
-                            '</div>'+
-                        '</div>'+
-                        '<span class="text-white text-xs sm:text-base hidden sm:block">' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
-                    '</div>' +
-                    '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-2 sm:mt-6 w-full !hidden"></div>' +
-                    '<div id="spell-' + id + '-' +idFight+'-'+idBoss+'" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
-                '</div>');
-                for (let g in allGroupMap[p].gear) {
-                    if (allGroupMap[p].gear[g].id > 0) {
-                        buildGearForChara( allGroupMap[p].gear[g],'#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
-                    }
-                }
-                for (let t in allGroupMap[p].talents) {
-                    builderCompForChara(allGroupMap[p].talents[t], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #spell-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
-                }
-            }   
-
-    });
-}
-
-async function reportTarget(idReport) {
+//https://www.esologs.com/reports/nRDC4ZMY2BT6Vk3a
+//'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
+async function reportSend(idReport) {
     const response = await fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key="+ApiKey);
     const data = await response.json();
     return data;
 }
 
+async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKey){
+    $('#input-content').remove();
+    $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
+    return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+        let summary = responseJson;
+        let allGroup = summary.composition;
+        let allDamageDone = summary.damageDone;
+        let pDetail = summary.playerDetails;
+        let fullDamage = 0;
+        for (let group of allGroup) {
+            allGroupMap[group.id] = group;
+        }
+        for (let [key, value] of Object.entries(allGroup)) {
+            allGroupMap[value.id]['role'] = value.specs[0].role;
+        }
 
 
-//reportTargetedSummary(idReport, startBoss, endBoss, ApiKey)
+        for (let [key, value] of Object.entries(allDamageDone)) {
+            allGroupMap[value.id]['dmgOutput'] = MoneyFormat(value.total);
+            allGroupMap[value.id]['dmg'] = value.total;
+            fullDamage = fullDamage += value.total;
+        }
+        for (let [key, data] of Object.entries(pDetail)) {
+            for (let indexP in data) {
+                allGroupMap[data[indexP].id]['displayName'] = data[indexP].displayName;
+                allGroupMap[data[indexP].id]['icon'] = data[indexP].icon;
+                allGroupMap[data[indexP].id]['championPoints'] = data[indexP].maxItemLevel;
+                allGroupMap[data[indexP].id]['gear'] = data[indexP].combatantInfo.gear;
+                allGroupMap[data[indexP].id]['talents'] = data[indexP].combatantInfo.talents;
+                allGroupMap[data[indexP].id]['buffs'] = [];
+                allGroupMap[data[indexP].id]['abilitiesBestDmg'] = [];
+                allGroupMap[data[indexP].id]['abilitiesBestHeal'] = [];
+            }
+        }
+
+
+
+        for (const p in allGroupMap) {
+            //console.log(allGroupMap[p]);
+            let pathIconDD = "https://assets.rpglogs.com/img/eso/icons/actors.png?v=8";
+            let id = allGroupMap[p].id;
+            let dmgOutput = allGroupMap[p].dmgOutput;
+            let role = allGroupMap[p].role;
+            let percentDmg = (allGroupMap[p].dmg * 100) / fullDamage;
+            let icon = allGroupMap[p].icon;
+            let name = allGroupMap[p].name;
+            let displayName = allGroupMap[p].displayName;
+            let idChara = allGroupMap[p].id;
+            let cpm = allGroupMap[p].cpm;
+            $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-2 sm:p-6 sm:rounded-lg border border-0 sm:border-4 shadow-md bg-gray-800 border-gray-800" data-role="' + role + '">' +
+                '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
+                    '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
+                        '<img class="composition-icon sprite rounded actor-sprite-' + icon + ' mr-2" src="' + pathIconDD + '">'+
+                        '<div class="flex items-center justify-center flex-row flex-wrap gap-2 text-[12px] sm:text-base">'+
+                            '<p class="text-white hidden sm:block">' + name +'</p>'+
+                            '<p class="text-white">' + displayName +'</p>'+
+                            '<p class="text-white">' + icon + '</p>'+
+                        '</div>'+
+                    '</div>'+
+                    '<span class="text-white text-xs sm:text-base hidden sm:block">' + parseFloat(dmgOutput).toPrecision(3) + dmgOutput.replace(/[^B|M|K]/g, "") + ' / ' + percentDmg.toFixed(2) + '%</span>'+
+                '</div>' +
+                '<div id="gear-' + id + '-' +idFight+'-'+idBoss+'" class="gear-container mt-2 sm:mt-6 w-full !hidden"></div>' +
+                '<div id="spell-' + id + '-' +idFight+'-'+idBoss+'" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
+            '</div>');
+            for (let g in allGroupMap[p].gear) {
+                if (allGroupMap[p].gear[g].id > 0) {
+                    buildGearForChara( allGroupMap[p].gear[g],'#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
+                }
+            }
+            for (let t in allGroupMap[p].talents) {
+                builderCompForChara(allGroupMap[p].talents[t], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #spell-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
+            }
+        }   
+    });
+}
+
+async function reportDamageDone(nameBoss,idReport,idFight,idBoss, start, end, ApiKey){
+    return fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
+    .then((response)=>response.json())
+    .then((responseJson)  => {
+        let dmgdone = responseJson.entries;
+        console.log(dmgdone);
+
+    })
+}
+
+async function reportHealing(nameBoss,idReport,idFight,idBoss, start, end, ApiKey){
+    return fetch("https://www.esologs.com:443/v1/report/tables/healing/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
+    .then((response)=>response.json())
+    .then((responseJson)  => {
+        let healingDone = responseJson.entries;
+        console.log(healingDone);
+    })
+}
+
+
+
+
+//reportSummary(idReport, startBoss, endBoss, ApiKey)
 
 
 function bossIsKilled(idFight,idBoss,nameBoss,durationBoss,killedBossInfo, idBoss){
@@ -240,8 +263,7 @@ async function sendRequest(urlLog){
     $('.rightLink').append('<a class="" target="_blank" href="'+urlLog+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     let explodeUrlLog = urlLog.split('https://www.esologs.com/reports/');
     let idReport = explodeUrlLog[1];
-    await reportTarget(idReport).then(fullReport => {
-        console.log(fullReport);
+    await reportSend(idReport).then(fullReport => {
         let nameTrial = fullReport.title;
         let startTrial = fullReport.start;
         let endTrial = fullReport.end;
@@ -250,6 +272,7 @@ async function sendRequest(urlLog){
         $("#input-content").remove();
         $('#fights-content').removeClass('!hidden');
         for (let fight of fullReport.fights) {
+            //console.log(fight);
             let idFight = fight.id;
             let idBoss = fight.boss;
             let nameBoss = fight.name;
@@ -268,7 +291,9 @@ async function sendRequest(urlLog){
             bossIsKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             bossIsNotKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             isTrash(idFight,idBoss,nameBoss,duration, idBoss);
-            reportTargetedSummary(idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
+            reportSummary(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
+            reportDamageDone(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
+            reportHealing(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
         }
     }).catch(function (error) {
         // if there's an error, log it
