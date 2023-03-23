@@ -1,6 +1,3 @@
-//https://assets.rpglogs.com/img/eso/maps/craglorn/helracitadel_base.jpg
-
-
 $(".role-item").click(function(){
     if($(this).hasClass('is-active')){
         $('.role-item').removeClass('is-active bg-white')
@@ -120,17 +117,38 @@ function buildFightNav4Boss(idFight, idBoss, killed, nameBoss){
 let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
-function reportTarget(idReport) {
+
+async function reportTargetedSummary(report,idFight, idBoss, start, end, ApiKey){
+    await fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    })
+}
+
+
+async function reportTarget(idReport) {
     var ApiKey = "b578a559d4215fb444928808da6976ec";
     //var ApiKey = "4228c88810d61ec90cb3dae815cb4a97";
     var url = idReport;
     $('.rightLink').append('<a class="" target="_blank" href="'+url+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
     var pathname = url.split('https://www.esologs.com/reports/');
     idReport = pathname[1];
-    //https://www.esologs.com/reports/zpjbZmvtc7M4JxXN
-    fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?translate=true&api_key="+ApiKey+"")
+    await fetch("https://www.esologs.com:443/v1/report/fights/"+idReport+"?api_key="+ApiKey+"")
         .then((response) => response.json())
         .then((data) => {
+            console.log(data.fights);
+            for (let fight of data.fights) {
+                let idFight = fight.id;
+                let idBoss = fight.boss;
+                let nameBoss = fight.name;
+                let killedBossInfo = fight.kill;
+                let startBoss = fight.start_time;
+                let endBoss = fight.end_time;
+                //reportTargetedSummary(idReport,idFight, idBoss, startBoss, endBoss, ApiKey)
+            }
+
+            /*
             let lang = data.lang;
             let nameTrial = data.title;
             let startTrial = data.start;
@@ -150,6 +168,7 @@ function reportTarget(idReport) {
                 let durationBoss = timeDuration(timestampWithoutMillisecond(endBoss) - timestampWithoutMillisecond(startBoss));
 
                 $('.boss-'+idBoss+' .fight-boss-nav').append(buildFightNav4Boss(idFight, idBoss, killedBossInfo, nameBoss));
+                $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-2 sm:gap-4 p-0 sm:p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
 
                 if($('.boss-'+idBoss).length == 0){
                     $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
@@ -170,6 +189,7 @@ function reportTarget(idReport) {
                     '</div>'+
                     '</div>');
                 }
+
                 if(killedBossInfo == false && idBoss > 0){
                     $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-red-400 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-2"  onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">'+
                         '<div class="flex items-center justify-center gap-4 text-red-400">Wipe - '+durationBoss+'</div>'+
@@ -187,31 +207,27 @@ function reportTarget(idReport) {
                     '</div>');
                 }
                 
-                $('#group-content').append('<div id="group-'+idFight+'-' + idBoss + '" class="group-container hidden grid grid-cols-1 xl:grid-cols-2 auto-rows-min gap-2 sm:gap-4 p-0 sm:p-6 overflow-auto h-[calc(100vh-8rem)]"></div>');
                 preciseFight(reportSign,idFight, idBoss, startBoss, endBoss, nameBoss,lang, ApiKey);
             }
+            */
         })
         .catch((error) => {
             console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
         });
+        
 }
 
 let allGroupMap = {};
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
-function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey) {
+async function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey) {
     $('#input-content').remove();
     $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
     Promise.all([
-        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/casts/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/summons/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+""),
-        fetch("https://www.esologs.com:443/v1/report/tables/deaths/" + report + "?start=" + start + "&end=" + end + "&translate=true&api_key="+ApiKey+"")
+        fetch("https://www.esologs.com:443/v1/report/tables/summary/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+""),
+        fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + report + "?start=" + start + "&end=" + end + "&api_key="+ApiKey+"")
     ]).then(function (responses) {
         // Get a JSON object from each of the responses
         return Promise.all(responses.map(function (response) {
-            $('.loader').addClass('hidden');
             return response.json();
         }));
     }).then(function (data) {
@@ -221,8 +237,6 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
         let damageDone = data[1];
         let casts = data[2];
         let summons = data[3];
-        let buffs = data[4];
-        let deaths = data[5];
 
         //console.log(idFight,idBoss, nameBoss);
         let allGroup = summary.composition;
@@ -231,13 +245,15 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
         //console.log(allDamageDone);
         let pDetail = summary.playerDetails;
         let fullDamage = 0;
+
         for (let group of allGroup) {
             allGroupMap[group.id] = group;
         }
+        console.log(data);
+        console.log('role');
         for (let [key, value] of Object.entries(allGroup)) {
             allGroupMap[value.id]['role'] = value.specs[0].role;
         }
-        //console.log(allGroupMap);
         for (let [key, value] of Object.entries(allDamageDone)) {
             //console.log(allGroupMap[value.id]);
             allGroupMap[value.id]['dmgOutput'] = MoneyFormat(value.total);
@@ -265,13 +281,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
             let name = allGroupMap[p].name;
             let displayName = allGroupMap[p].displayName;
             let idChara = allGroupMap[p].id;
-            let gear = allGroupMap[p].gear;
-            let talents = allGroupMap[p].talents;
             let cpm = allGroupMap[p].cpm;
-            /*
-                '<div id="gear-' + id + '" class="gear-container mt-6 !hidden"></div>' +
-                '<div id="spell-' + id + '" class="spell-container mt-6  flex justify-between w-full !hidden"></div>' +
-            */
             $('#group-'+idFight+'-'+idBoss).append('<div id="' + displayName + '" class="item-group flex justify-center flex-col p-2 sm:p-6 sm:rounded-lg border border-0 sm:border-4 shadow-md bg-gray-800 border-gray-800" data-role="' + role + '">' +
                 '<div class="text-sm font-bold tracking-tight text-gray-900 dark:text-white flex items-center justify-between flex-col w-full">' +
                     '<div class="flex items-center justify-between w-full"><div class="flex items-center justify-center">'+
@@ -317,7 +327,6 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
             for (let g in allGroupMap[p].gear) {
                 if (allGroupMap[p].gear[g].id > 0) {
                     buildGearForChara( allGroupMap[p].gear[g],'#group-' + idFight + '-' + idBoss + ' #gear-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss, lang );
-                    //buildGearForChara( allGroupMap[p].gear[g],allGroupMap[p].id, idBoss, '.container-user-'+allGroupMap[f].id+'-'+idBoss+' .stuff' );
                 }
             }
             for (let t in allGroupMap[p].talents) {
@@ -325,7 +334,7 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
             }
         }       
 
-
+        $('.loader').addClass('hidden');
     }).catch(function (error) {
         // if there's an error, log it
         console.log(error);
@@ -333,19 +342,21 @@ function preciseFight(report,idFight, idBoss, start, end, nameBoss,lang, ApiKey)
 
 }
 
-     /*
-        for (let [k, v] of Object.entries(buffsTab)) {
-            fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&abilityid="+v.code+"&api_key=b578a559d4215fb444928808da6976ec")
-            .then((response) => response.json())
-            .then(function(buffsTable){
-                for (let [key, value] of Object.entries(buffsTable['auras'])) {
-                    allGroupMap[value.id]['uptime' + k] = value.totalUptime;
-                }
-            }).catch(function (error) { });
-        }*/
 
 
 
+
+
+/*
+for (let [k, v] of Object.entries(buffsTab)) {
+    fetch("https://www.esologs.com:443/v1/report/tables/buffs/" + report + "?start=" + start + "&end=" + end + "&abilityid="+v.code+"&api_key=b578a559d4215fb444928808da6976ec")
+    .then((response) => response.json())
+    .then(function(buffsTable){
+        for (let [key, value] of Object.entries(buffsTable['auras'])) {
+            allGroupMap[value.id]['uptime' + k] = value.totalUptime;
+        }
+    }).catch(function (error) { });
+}*/
 
 // var chartData = {
 //     datasets: [{
