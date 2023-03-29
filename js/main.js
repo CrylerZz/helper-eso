@@ -106,7 +106,7 @@ let fightMap = {};
 let trashMap = {}
 let buffsArray = {};
 let ApiKey = "b578a559d4215fb444928808da6976ec";
-
+// https://www.esologs.com/reports/RHvgBdL3QmKPw82C (marche pas)
 
 //https://www.esologs.com/reports/nRDC4ZMY2BT6Vk3a
 //'summary', 'damage-done', 'damage-taken', 'healing', 'casts', 'summons', 'buffs', 'debuffs', 'deaths', 'survivability', 'resources', 'resources-gains'.
@@ -122,6 +122,7 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
     return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
     .then((response)=>response.json())
     .then((responseJson)=>{
+            console.log(responseJson);
         let summary = responseJson;
         let allGroup = summary.composition;
         let allDamageDone = summary.damageDone;
@@ -130,10 +131,10 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
         for (let group of allGroup) {
             allGroupMap[group.id] = group;
         }
+        
         for (let [key, value] of Object.entries(allGroup)) {
             allGroupMap[value.id]['role'] = value.specs[0].role;
         }
-
 
         for (let [key, value] of Object.entries(allDamageDone)) {
             allGroupMap[value.id]['dmgOutput'] = MoneyFormat(value.total);
@@ -199,7 +200,7 @@ async function reportDamageDone(nameBoss,idReport,idFight,idBoss, start, end, Ap
     .then((response)=>response.json())
     .then((responseJson)  => {
         let dmgdone = responseJson.entries;
-        console.log(dmgdone);
+        //console.log(dmgdone);
 
     })
 }
@@ -209,12 +210,9 @@ async function reportHealing(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
     .then((response)=>response.json())
     .then((responseJson)  => {
         let healingDone = responseJson.entries;
-        console.log(healingDone);
+        //console.log(healingDone);
     })
 }
-
-
-
 
 //reportSummary(idReport, startBoss, endBoss, ApiKey)
 
@@ -272,6 +270,7 @@ async function sendRequest(urlLog){
         $("#input-content").remove();
         $('#fights-content').removeClass('!hidden');
         for (let fight of fullReport.fights) {
+
             //console.log(fight);
             let idFight = fight.id;
             let idBoss = fight.boss;
