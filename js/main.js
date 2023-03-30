@@ -122,7 +122,7 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
     return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
     .then((response)=>response.json())
     .then((responseJson)=>{
-            console.log(responseJson);
+            //console.log(responseJson);
         let summary = responseJson;
         let allGroup = summary.composition;
         let allDamageDone = summary.damageDone;
@@ -218,8 +218,10 @@ async function reportHealing(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
 
 
 function bossIsKilled(idFight,idBoss,nameBoss,durationBoss,killedBossInfo, idBoss){
+    console.log();
     if(killedBossInfo !== false && idBoss > 0){
-        return $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item lg:col-span-2 xl:col-span-3 p-4 bg-green-500 border-2 border-green-500 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-1" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">'+
+        return $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item lg:col-span-2 xl:col-span-3 p-4 bg-green-500 border-2 border-green-500 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-1" '+
+        'onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss.replace(/'/g,"") + '\')">'+
             '<div class="flex items-center justify-center gap-4 text-white">Kill - '+durationBoss+'</div>'+
                 '<div class="flex items-center justify-center gap-10 uppercase font-extrabold">'+
                 '<div class="border-2 border-green-500 text-green-500 bg-gray-800 rounded-lg text-sm px-4 h-9 flex items-center justify-center hover:bg-white hover:text-black" >Show</div>'+
@@ -229,7 +231,7 @@ function bossIsKilled(idFight,idBoss,nameBoss,durationBoss,killedBossInfo, idBos
 }
 function bossIsNotKilled(idFight,idBoss,nameBoss,durationBoss,killedBossInfo, idBoss){
     if(killedBossInfo == false && idBoss > 0){
-        $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-red-400 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-2"  onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">'+
+        $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-red-400 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-2"  onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss.replace(/'/g,"") + '\')">'+
             '<div class="flex items-center justify-center gap-4 text-red-400">Wipe - '+durationBoss+'</div>'+
             '<div class="flex items-center justify-center gap-10 uppercase font-extrabold">'+
             '<div class="border-2 border-white rounded-lg text-sm px-4 h-9 flex items-center justify-center hover:bg-white hover:text-black">Show</div>'+
@@ -241,7 +243,7 @@ function isTrash(idFight,idBoss,nameBoss,durationBoss, idBoss){
     if(idBoss <= 0){
         $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item p-4 border-2 border-gray-200 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center" >'+
             '<div class="flex items-center justify-center gap-4 text-gray-400">'+nameBoss+' - '+durationBoss+'</div>'+
-            '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss + '\')">Show</div>'+
+            '<div class="flex items-center justify-center gap-10 uppercase font-extrabold"><div class="border-2 border-white rounded-lg text-sm px-4 h-10 flex items-center justify-center hover:bg-white hover:text-black" onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss.replace(/'/g,"") + '\')">Show</div>'+
         '</div>'+
         '</div>');
     }
@@ -249,7 +251,7 @@ function isTrash(idFight,idBoss,nameBoss,durationBoss, idBoss){
 function buildParentFightContainer(idBoss, nameBoss){
     if($('#boss-container-'+idBoss).length == 0){
         $('#fights-content').append('<div id="boss-container-'+idBoss+'" class=" font-extrabold text-white flex flex-col '+ (idBoss == 0 ? "order-[1000]" : "order-1" )+' ">'+
-        '<div class="bg-gray-800 p-4 flex items-center p-4 gap-4"><img class="h-12 w-12 rounded-lg border-2 border-gray-700 text-xl" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>'+ (idBoss == 0 ? "Trashs" : nameBoss )+'</div>'+
+        '<div class="bg-gray-800 p-4 flex items-center p-4 gap-4"><img class="h-12 w-12 rounded-lg border-2 border-gray-700 text-xl" src="https://assets.rpglogs.com/img/eso/bosses/'+idBoss+'-icon.png"/>'+ (idBoss == 0 ? "Trashs" : nameBoss.replace(/'/g,"") )+'</div>'+
         '<div class="p-4 container-item-boss grid lg:grid-cols-2 xl:grid-cols-3 gap-4"></div>'+
         '</div>');
     }
