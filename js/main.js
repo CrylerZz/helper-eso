@@ -118,11 +118,10 @@ async function reportSend(idReport) {
 
 async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKey){
     $('#input-content').remove();
-    $('body').append('<div class="loader fixed inset-0 bg-white text-black text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
     return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
     .then((response)=>response.json())
     .then((responseJson)=>{
-            //console.log(responseJson);
+        console.log(responseJson);
         let summary = responseJson;
         let allGroup = summary.composition;
         let allDamageDone = summary.damageDone;
@@ -261,6 +260,8 @@ let allGroupMap = {};
 
 async function sendRequest(urlLog){
     $('.rightLink').append('<a class="" target="_blank" href="'+urlLog+'"><img class="w-9 mx-auto" src="https://assets.rpglogs.com/img/eso/favicon.png?v=2"/></a>')
+    $('body').append('<div class="loader fixed inset-0 bg-gray-900 text-white text-6xl font-extrabold uppercase flex items-center justify-center">LOADING</div>');
+
     let explodeUrlLog = urlLog.split('https://www.esologs.com/reports/');
     let idReport = explodeUrlLog[1];
     await reportSend(idReport).then(fullReport => {
@@ -289,6 +290,7 @@ async function sendRequest(urlLog){
                 $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
             }
             buildParentFightContainer(idBoss, nameBoss);
+            reportSummary(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
             bossIsKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             bossIsNotKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             isTrash(idFight,idBoss,nameBoss,duration, idBoss);
@@ -296,11 +298,12 @@ async function sendRequest(urlLog){
             reportDamageDone(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
             reportHealing(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
         }
+        $('.loader').addClass('hidden');
+
     }).catch(function (error) {
         // if there's an error, log it
         console.log(error);
     });
-    $('.loader').addClass('hidden');
 }
 
 
