@@ -121,7 +121,6 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
     return fetch("https://www.esologs.com:443/v1/report/tables/summary/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
     .then((response)=>response.json())
     .then((responseJson)=>{
-        console.log(responseJson);
         let summary = responseJson;
         let allGroup = summary.composition;
         let allDamageDone = summary.damageDone;
@@ -147,13 +146,8 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
                 allGroupMap[data[indexP].id]['championPoints'] = data[indexP].maxItemLevel;
                 allGroupMap[data[indexP].id]['gear'] = data[indexP].combatantInfo.gear;
                 allGroupMap[data[indexP].id]['talents'] = data[indexP].combatantInfo.talents;
-                allGroupMap[data[indexP].id]['buffs'] = [];
-                allGroupMap[data[indexP].id]['abilitiesBestDmg'] = [];
-                allGroupMap[data[indexP].id]['abilitiesBestHeal'] = [];
             }
         }
-
-
 
         for (const p in allGroupMap) {
             //console.log(allGroupMap[p]);
@@ -190,6 +184,7 @@ async function reportSummary(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
             for (let t in allGroupMap[p].talents) {
                 builderCompForChara(allGroupMap[p].talents[t], allGroupMap[p].id, idBoss, '#group-' + idFight + '-' + idBoss + ' #spell-' + allGroupMap[p].id+'-' + idFight + '-' + idBoss );
             }
+      
         }   
     });
 }
@@ -198,8 +193,10 @@ async function reportDamageDone(nameBoss,idReport,idFight,idBoss, start, end, Ap
     return fetch("https://www.esologs.com:443/v1/report/tables/damage-done/" + idReport + "?start=" + start + "&end=" + end + "&api_key="+ApiKey)
     .then((response)=>response.json())
     .then((responseJson)  => {
-        let dmgdone = responseJson.entries;
-        //console.log(dmgdone);
+        let dmgDone = responseJson.entries;
+        for (let [key, value] of Object.entries(dmgDone)) {
+            console.log(value);
+        }
 
     })
 }
@@ -217,7 +214,6 @@ async function reportHealing(nameBoss,idReport,idFight,idBoss, start, end, ApiKe
 
 
 function bossIsKilled(idFight,idBoss,nameBoss,durationBoss,killedBossInfo, idBoss){
-    console.log();
     if(killedBossInfo !== false && idBoss > 0){
         return $('#boss-container-'+idBoss+' .container-item-boss').append('<div class="boss-item lg:col-span-2 xl:col-span-3 p-4 bg-green-500 border-2 border-green-500 h-16 w-full font-extrabold flex items-center justify-between rounded-lg gap-5 cursor-pointer text-center order-1" '+
         'onclick="showBossTeam(' + idFight +','+ idBoss + ',\'' + nameBoss.replace(/'/g,"") + '\')">'+
@@ -290,18 +286,16 @@ async function sendRequest(urlLog){
                 $('.container-main-nav').append(buildContainerNav4Boss(idBoss,nameBoss));
             }
             buildParentFightContainer(idBoss, nameBoss);
-            reportSummary(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
             bossIsKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             bossIsNotKilled(idFight,idBoss,nameBoss,duration,killedBossInfo, idBoss);
             isTrash(idFight,idBoss,nameBoss,duration, idBoss);
             reportSummary(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
-            reportDamageDone(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
-            reportHealing(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
+            //reportDamageDone(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
+           // reportHealing(nameBoss,idReport,idFight,idBoss, startBoss, endBoss, ApiKey);
         }
         $('.loader').addClass('hidden');
 
     }).catch(function (error) {
-        // if there's an error, log it
         console.log(error);
     });
 }
